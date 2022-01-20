@@ -15,7 +15,7 @@ $user->load('organisation');
         Tip 2: you can also add an image using data-image tag
     -->
     <div class="logo">
-        <a href="#user"><img  style="width: 250px;height: 25vh" src="https://innovateec.co.za/portal/public/images/rinp%20logo.png"></a>
+        <a href="#user"><img  style="width: 250px;height: 25vh" src="{{ asset('images') }}/rinp_logo.png"></a>
     </div>
 
     <div class="sidebar-wrapper">
@@ -107,8 +107,25 @@ $user->load('organisation');
                             </li>
                         </ul>
                     </div>
+                    <a class="nav-link" data-toggle="collapse" href="#Calls" aria-expanded="true">
+                        <i class="material-icons black">event_available</i>
+                        <p>{{ __('Calls') }}
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse hide" id="Calls">
+                        <ul class="nav">
+                            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('get-calls') }}">
+                                    <span class="sidebar-mini"> <i class="material-icons black">event_available</i> </span>
+                                    <span class="sidebar-normal"> {{ __('Calls') }} </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
             @endif
+
             @if($user->roles[0]->name == 'not assigned')
                     <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
                         <a class="nav-link" data-toggle="collapse" href="#Organisation" aria-expanded="true">
@@ -196,6 +213,22 @@ $user->load('organisation');
                                     @endif
                             </ul>
                         </div>
+                        <a class="nav-link" data-toggle="collapse" href="#Calls" aria-expanded="true">
+                        <i class="material-icons black">event_available</i>
+                        <p>{{ __('Calls') }}
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse hide" id="Calls">
+                        <ul class="nav">
+                            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('get-calls') }}">
+                                    <span class="sidebar-mini"> <i class="material-icons black">event_available</i> </span>
+                                    <span class="sidebar-normal"> {{ __('Calls') }} </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     </li>
                 @endif
                 @if($user->roles[0]->name == 'Incubator staff')
@@ -253,6 +286,22 @@ $user->load('organisation');
                                 </li>
                             </ul>--}}
                         </div>
+                        <a class="nav-link" data-toggle="collapse" href="#Calls" aria-expanded="true">
+                        <i class="material-icons black">event_available</i>
+                        <p>{{ __('Calls') }}
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse hide" id="Calls">
+                        <ul class="nav">
+                            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('get-calls') }}">
+                                    <span class="sidebar-mini"> <i class="material-icons black">event_available</i> </span>
+                                    <span class="sidebar-normal"> {{ __('Calls') }} </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     </li>
 
                 @endif
@@ -302,6 +351,23 @@ $user->load('organisation');
                                     @endif
                             </ul>
                         </div>
+
+                        <a class="nav-link" data-toggle="collapse" href="#Calls" aria-expanded="true">
+                        <i class="material-icons black">event_available</i>
+                        <p>{{ __('Calls') }}
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <div class="collapse hide" id="Calls">
+                        <ul class="nav">
+                            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+                                <a class="nav-link" href="{{ route('get-calls') }}">
+                                    <span class="sidebar-mini"> <i class="material-icons black">event_available</i> </span>
+                                    <span class="sidebar-normal"> {{ __('Calls') }} </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     </li>
 
                 @endif

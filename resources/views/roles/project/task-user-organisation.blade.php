@@ -22,7 +22,7 @@
                     <div class="profile">
                         <div class="profile-pic">
                             <div class="header-color"></div>
-                            <img src="/images/rinp logo.png" alt="Profile Picture">
+                            <img src="{{ asset('images') }}/rinp_logo.png" alt="Profile Picture">
                         </div>
                         <div class="title">
                             <h1>{{$project->organisation_name}}</h1>

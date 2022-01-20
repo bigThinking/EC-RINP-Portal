@@ -84,6 +84,15 @@ Route::get('edit-event/{event}',[App\Http\Controllers\UsersController::class, 'e
 Route::put('/update-event/{event}',[App\Http\Controllers\UsersController::class, 'updateEvent'])->name('update-event');
 Route::get('/view-events',[App\Http\Controllers\HomeController::class, 'viewEvents'])->name('view-events');
 
+//CallS
+Route::get('create-call',[App\Http\Controllers\CallController::class, 'createEvent'])->name('create-events');
+Route::post('store-call',[App\Http\Controllers\CallController::class,'storeEvents'])->name('store-event');
+Route::get('get-calls',[App\Http\Controllers\CallController::class,'callIndex'])->name('get-calls');
+Route::get('delete-call/{call}',[App\Http\Controllers\CallController::class, 'deleteEvent']);
+Route::get('edit-call/{call}',[App\Http\Controllers\CallController::class, 'editEvent'])->name('edit-event');
+Route::put('/update-call/{call}',[App\Http\Controllers\CallController::class, 'updateEvent'])->name('update-event');
+Route::get('/view-calls',[App\Http\Controllers\CallController::class, 'viewEvents'])->name('view-events');
+
 
 //STAGES
 Route::get('create-stages',[App\Http\Controllers\ProjectController::class, 'createStages'])->name('create-stages');
