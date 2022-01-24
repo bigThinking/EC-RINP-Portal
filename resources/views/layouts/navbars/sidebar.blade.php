@@ -116,7 +116,7 @@ $user->load('organisation');
                     <div class="collapse hide" id="Calls">
                         <ul class="nav">
                             <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-                                <a class="nav-link" href="{{ route('get-calls') }}">
+                                <a class="nav-link" href="{{ route('view-calls') }}">
                                     <span class="sidebar-mini"> <i class="material-icons black">event_available</i> </span>
                                     <span class="sidebar-normal"> {{ __('Calls') }} </span>
                                 </a>
@@ -222,7 +222,7 @@ $user->load('organisation');
                     <div class="collapse hide" id="Calls">
                         <ul class="nav">
                             <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-                                <a class="nav-link" href="{{ route('get-calls') }}">
+                                <a class="nav-link" href="{{ route('view-calls') }}">
                                     <span class="sidebar-mini"> <i class="material-icons black">event_available</i> </span>
                                     <span class="sidebar-normal"> {{ __('Calls') }} </span>
                                 </a>
@@ -295,7 +295,7 @@ $user->load('organisation');
                     <div class="collapse hide" id="Calls">
                         <ul class="nav">
                             <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-                                <a class="nav-link" href="{{ route('get-calls') }}">
+                                <a class="nav-link" href="{{ route('view-calls') }}">
                                     <span class="sidebar-mini"> <i class="material-icons black">event_available</i> </span>
                                     <span class="sidebar-normal"> {{ __('Calls') }} </span>
                                 </a>
@@ -361,7 +361,7 @@ $user->load('organisation');
                     <div class="collapse hide" id="Calls">
                         <ul class="nav">
                             <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-                                <a class="nav-link" href="{{ route('get-calls') }}">
+                                <a class="nav-link" href="{{ route('view-calls') }}">
                                     <span class="sidebar-mini"> <i class="material-icons black">event_available</i> </span>
                                     <span class="sidebar-normal"> {{ __('Calls') }} </span>
                                 </a>

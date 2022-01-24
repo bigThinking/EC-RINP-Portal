@@ -18,19 +18,19 @@
                     </ul>
                 </div>
             @endif
- <a href="/portal/get-events">
+         <a href="{{ url()->previous() }}">
                     <button style="margin-left: 2em" type="submit" id="save-organisation"
                             class="btn btn-primary">{{ __('Back') }}</button>
                 </a>
             <div class="row">
                 <div class="col-md-12">
-                    <form id="add-role" method="post" action="{{url('store-event')}}" class="form-horizontal" enctype="multipart/form-data">
+                    <form id="add-role" method="post" action="{{url('save-call')}}" class="form-horizontal" enctype="multipart/form-data">
                         @csrf
                         @method('post')
                         <div class="card ">
                             <div class="card-header card-header-primary">
-                                <h4 class="card-title">{{ __('Add Event') }}</h4>
-                                <p class="card-category">{{ __('Enter Event Information') }}</p>
+                                <h4 class="card-title">{{ __('Create A New Call') }}</h4>
+                                <p class="card-category">{{ __('Enter Call Information') }}</p>
                             </div>
                             <div class="card-body ">
 
@@ -38,10 +38,10 @@
                                     <div class="row">
                                         <div class="col">
                                             <input name="title" type="text" id="title" class="form-control"
-                                                   placeholder="Event title">
+                                                   placeholder="Title">
                                         </div>
                                         <div class="col">
-                                            <label>All day</label>
+                                            <label>Call Type</label>
                                             <select name="all_day" id="type" class="browser-default custom-select">
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
@@ -49,42 +49,32 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <div class="row">
+                                        <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
                                         <div class="col">
-                                            <label>Event start time</label>
-                                            <input name="start_time" type="time" id="start_time" class="form-control"
-                                                   placeholder="Start time">
+                                            <textarea rows = "5" cols = "110" name = "description" id="description" ></textarea><br>
                                         </div>
                                         <div class="col">
-                                            <label>Event end time</label>
-                                            <input name="end_time" type="time" id="end_time" class="form-control"
-                                                   placeholder="End time ">
+                                            <label>Sign ups close at:</label>
+                                            <input name="closing" type="datetime-local" id="closing_date" class="form-control"
+                                                   placeholder="Closing Date">
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">
-                                            <label>Event start date</label>
-                                            <input name="start" type="date" id="start" class="form-control"
+                                            <label>Event starts at:</label>
+                                            <input name="start" type="datetime-local" id="start" class="form-control"
                                                    placeholder="Start date">
                                         </div>
                                         <div class="col">
-                                            <label>Event end date</label>
-                                            <input name="end" type="date" id="end" class="form-control"
+                                            <label>Event ends at</label>
+                                            <input name="end" type="datetime-local" id="end" class="form-control"
                                                    placeholder="End date ">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col">
-                                            <label>Event type</label>
-                                            <select name="type" id="type" class="browser-default custom-select">
-                                                <option value="Public">Public</option>
-                                                <option value="Private">Private</option>
-                                            </select>
                                         </div>
                                     </div>
                                 </div>

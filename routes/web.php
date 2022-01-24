@@ -29,7 +29,6 @@ Route::get('edit-role/{role}',[App\Http\Controllers\UsersController::class, 'edi
 Route::put('/update-role/{role}',[App\Http\Controllers\UsersController::class, 'updateRole'])->name('update-role');
 Route::get('delete-role/{role}',[App\Http\Controllers\UsersController::class, 'adminDeleteUserRole']);
 
-
 //ORGANISATIONS
 Route::get('admin-create-organisation',[App\Http\Controllers\OrganisationsController::class, 'adminCreateOrganisation']);
 Route::post('admin-store-organisation',[App\Http\Controllers\OrganisationsController::class, 'adminStoreOrganisation']);
@@ -85,14 +84,15 @@ Route::put('/update-event/{event}',[App\Http\Controllers\UsersController::class,
 Route::get('/view-events',[App\Http\Controllers\HomeController::class, 'viewEvents'])->name('view-events');
 
 //CallS
-Route::get('create-call',[App\Http\Controllers\CallController::class, 'createEvent'])->name('create-events');
-Route::post('store-call',[App\Http\Controllers\CallController::class,'storeEvents'])->name('store-event');
-Route::get('get-calls',[App\Http\Controllers\CallController::class,'callIndex'])->name('get-calls');
-Route::get('delete-call/{call}',[App\Http\Controllers\CallController::class, 'deleteEvent']);
-Route::get('edit-call/{call}',[App\Http\Controllers\CallController::class, 'editEvent'])->name('edit-event');
-Route::put('/update-call/{call}',[App\Http\Controllers\CallController::class, 'updateEvent'])->name('update-event');
-Route::get('/view-calls',[App\Http\Controllers\CallController::class, 'viewEvents'])->name('view-events');
-
+Route::get('create-call',[App\Http\Controllers\CallController::class, 'createCall'])->name('create-call');
+Route::post('save-call',[App\Http\Controllers\CallController::class,'saveCall'])->name('save-call');
+Route::get('delete-call/{call}',[App\Http\Controllers\CallController::class, 'deleteCall'])->name('delete-call');
+Route::get('edit-call/{call}',[App\Http\Controllers\CallController::class, 'editCall'])->name('edit-call');
+Route::put('/update-call/{call}',[App\Http\Controllers\CallController::class, 'updateCall'])->name('update-call');
+Route::get('view-calls',[App\Http\Controllers\CallController::class, 'callIndex'])->name('view-calls');
+Route::get('view-calls/organisation',[App\Http\Controllers\CallController::class, 'callIndexOrganisation'])->name('view-calls-organisation');
+Route::get('get-call/{call}',[App\Http\Controllers\CallController::class,'getCall'])->name('get-call');
+Route::get('signup/{call}',[App\Http\Controllers\CallController::class,'signUp'])->name('call-signup');
 
 //STAGES
 Route::get('create-stages',[App\Http\Controllers\ProjectController::class, 'createStages'])->name('create-stages');
