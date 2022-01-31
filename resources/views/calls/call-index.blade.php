@@ -5,6 +5,8 @@
 <?php
     $user = \Illuminate\Support\Facades\Auth::user();
     $user->load('organisation');
+
+    $onOrganisation = Route::currentRouteName() == 'view-calls-organisation';
 ?>
 
 <div class="content">
@@ -27,45 +29,33 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title ">calls</h4>
+                        <h4 class="card-title ">Calls</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
+                        <div class="col">
                             <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
-                                href="{{url('create-call')}}" title="Create new call"><i
-                                    class="large material-icons">add</i> Create new call
+                                href="{{url('create-call')}}" title="Create new call">Create new call
                             </a>
+                            </div>
 
                             @if($user->roles[0]->name == 'administrator')
-                            <label for="callSet">Show:</label>
-
-                            <select name="callSet" id="callSet" class="browser-default custom-select">
-                                <option value="all">All Calls</option>
-                                <option value="organisation">My Organisation's Calls</option>
-                            </select>
-                            @endif
-                        </div>
-
-                        <div class="modal fade" id="viewCallModal" tabindex="-1" role="dialog"
-                            aria-labelledby="callModalLongTitle" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="callModalLongTitle">Modal title</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        lots of text
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                </div>
+                            <div class="col">
+                            <div class="row">
+                                
+                                <label class="col h4 text-right" style="padding-top:10px;" for="callSet">Show:</label>
+                            
+                                
+                                <select name="callSet" id="callSet" class="col browser-default custom-select"
+                                    onchange="getCallSet()">
+                                    <option value="all">All Calls</option>
+                                    <option value="organisation" {{ $onOrganisation ? __('selected') : __('') }}>My
+                                        Organisation's Calls</option>
+                                </select>
+                                
                             </div>
+                           </div>
+                            @endif
                         </div>
 
                         <div class="d-flex">
@@ -75,7 +65,8 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table" id="roles-table" style="width: 100%!important">
+                            <table class="table table-borderless" id="roles-table"
+                                style="width:100%!important;">
                                 <tbody>
                                     @foreach($calls as $call)
                                     @if(($loop->index+1)%3 == 1)
@@ -91,31 +82,19 @@
                                                     <h6 class="card-subtitle mb-2 text-muted">organisation</h6>
                                                     <p class="card-text">{{$call->description}}</p>
                                                     <p class="card-text">Closing date: {{$call->closing_date}}</p>
-                                                    @if($user->roles[0]->name == 'administrator')
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                        data-target="#viewCallModal"
-                                                        data-callid="{{$call->id}}">View</button>
+                                                    @if($user->roles[0]->name == config('constants.ADMINISTRATOR'))
+                                                    <a type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="bottom" href="{{route('show-call', $call->id)}}"
+                                                        title="View this call">View
+                                                    </a>
+
                                                     <button type="button" class="btn btn-primary" onclick="signUp(this)"
                                                         data-callid="{{$call->id}}">Sign up</button>
                                                     @endif
-
-                                                    {{--@if($user->roles[0]->name == 'innovator')
-                                                <a href="#0" class="card-link">View</a>
-                                                <a href="#0" class="card-link">Sign up</a>
-                                                @endif
-
-                                                @if($user->roles[0]->name == 'administrator' || $user->roles[0]->name == 'facilitator' || $user->roles[0]->name == 'incubator')
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewCallModal"data-callid="{{$call->id}}">View</button>
-
-                                                    @if($user->organisation[0]->id == $call->organisation_id)
-                                                    <button type="button" class="btn btn-primary" onclick="signUp(this)"
-                                                        data-callid="{{$call->id}}">Edit</button>
-                                                    @endif
-                                                    @endif --}}
                                                 </div>
                                             </div>
                                         </td>
-                                        @if(($loop->index+1)%3 == 0)
+                                    @if(($loop->index+1)%3 == 0)
                                     </tr>
                                     @endif
                                     @endforeach
@@ -159,22 +138,6 @@ body {
 
 @push('custom-scripts')
 <script>
-$(document).ready(function() {
-    $('#viewCallModal').on('shown.bs.modal', function(event) {
-        var plainUrl = "{{route('get-call', ':id')}}";
-        $.get({
-            url: plainUrl.replace(':id', $(event.relatedTarget).data("callid")),
-            success: function(response) {
-                console.log(response);
-                var modal = $(this);
-                var data = JSON.parse(response);
-                modal.find('.modal-title').text(data.title);
-                modal.find('.modal-body').text(data.description);
-            }
-        })
-    })
-})
-
 function signUp(obj) {
     var plainUrl = "{{route('call-signup', ':id')}}";
     $.get({
@@ -185,6 +148,14 @@ function signUp(obj) {
             var data = JSON.parse(response);
         }
     })
+}
+
+function getCallSet() {
+    var x = document.getElementById("callSet").value;
+    if (x == 'all')
+        window.location.replace("{{route('view-calls')}}");
+    else if (x == 'organisation')
+        window.location.replace("{{route('view-calls-organisation')}}");
 }
 
 

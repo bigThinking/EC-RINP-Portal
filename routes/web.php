@@ -92,6 +92,7 @@ Route::put('/update-call/{call}',[App\Http\Controllers\CallController::class, 'u
 Route::get('view-calls',[App\Http\Controllers\CallController::class, 'callIndex'])->name('view-calls');
 Route::get('view-calls/organisation',[App\Http\Controllers\CallController::class, 'callIndexOrganisation'])->name('view-calls-organisation');
 Route::get('get-call/{call}',[App\Http\Controllers\CallController::class,'getCall'])->name('get-call');
+Route::get('show-call/{call}',[App\Http\Controllers\CallController::class,'showCall'])->name('show-call');
 Route::get('signup/{call}',[App\Http\Controllers\CallController::class,'signUp'])->name('call-signup');
 
 //STAGES

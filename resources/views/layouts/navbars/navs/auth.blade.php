@@ -60,7 +60,7 @@ $role = $user->roles[0];
 
 </style>
 <script>
-    $('#submit-button')
+  
 </script>
 
 

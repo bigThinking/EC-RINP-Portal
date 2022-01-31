@@ -11,11 +11,15 @@ class Call extends BaseModel
         'closing_date','start_time','end_time'];
 
 
-    public function organisaton(){
+    public function organisation(){
         return $this->belongsTo(Organisation::class, 'organisation_id');
     }
 
     public function callSignUp(){
         return $this->hasMany(CallSignUp::class, 'call_id');
+    }
+
+    public function callType(){
+        return $this->belongsTo(CallType::class, 'call_type');
     }
 }

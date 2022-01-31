@@ -1,123 +1,115 @@
-@extends('layouts.app', ['activePage' => 'calls', 'titlePage' => __('View call')])
+@extends('layouts.app', ['activePage' => 'view_call', 'titlePage' => __('View call')])
 
 @section('content')
 
-    <div class="content">
-        <div class="container-fluid">
-            @if (session()->has('success_message'))
-                <div class="alert alert-success">
-                    {{ session()->get('success_message') }}
-                </div>
-            @endif
-            @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+<?php
+    $user = \Illuminate\Support\Facades\Auth::user();
+
+ ?>
+<div class="content">
+    <div class="container-fluid">
+        @if (session()->has('success_message'))
+        <div class="alert alert-success">
+            {{ session()->get('success_message') }}
         </div>
-        <head>
-            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-            <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-            <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
-            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
-        </head>
-        <body>
-        <h5 style="padding-top: 5px;" align="center"><b>EC-RINP EVENT CALENDAR</b></h5>
-        <br/>
-
-        <div class="container"  style="height: 900px; width: 1200px;">
-            <div id="cal">{!! $calendar->calendar() !!}</div>
-            {!! $calendar->script() !!}
+        @endif
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-        </body>
-    </div>
+        @endif
+        <a href="{{ url()->previous() }}">
+            <button style="margin-left: 2em" type="submit" id="save-organisation"
+                class="btn btn-primary">{{ __('Back') }}</button>
+        </a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title ">{{$call->title}}</h4>
+                    </div>
+                    <div class="card-body">
+                        @if($user->roles[0]->name == config('constants.ADMINISTRATOR'))
+                        <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
+                            href="{{route('edit-call', $call->id)}}" title="Create new call"><i
+                                class="large material-icons">add</i> Edit this call
+                        </a>
 
-    <style>
-        body{
-            background-color: white;
-        }
-        .card .card-header-primary .card-icon, .card .card-header-primary .card-text, .card .card-header-primary:not(.card-header-icon):not(.card-header-text), .card.bg-primary, .card.card-rotate.bg-primary .front, .card.card-rotate.bg-primary .back {
-            background: linear-gradient(60deg, #1E73BE, #1E73BE);
-        }
-        .btn.btn-primary {
-            background-color: #1E73BE;
-        }
-        .text-primary {
-            color: #1E73BE !important;
-        }
-        .btn.btn-primary:hover {
-            background-color: #1E73BE;
-        }
+                        <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
+                            href="{{route('delete-call', $call->id)}}" title="Create new call"><i
+                                class="large material-icons">add</i> Delete call
+                        </a>
+                        @endif
 
-    </style>
+                        @if($user->roles[0]->name == config('constants.ADMINISTRATOR'))
+                                                    <a type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="bottom" href="{{route('show-call', $call->id)}}"
+                                                        title="View this call">View
+                                                    </a>
 
-    <div class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Create new event</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label class="col-xs-4" for="title">Event title</label>
-                            <input type="text" name="title" id="title" />
+                                                    <button type="button" class="btn btn-primary" onclick="signUp(this)"
+                                                        data-callid="{{$call->id}}">Sign up</button>
+                                                    @endif
+
+                        <div class="container">
+                            <p><b>Organisation </b><span style="margin-left: 4em">: {{$call->description}}</span></p>
+                            {{-- <p><b>Call Type  </b><span style="margin-left: 3em">: {{$user->surname}}</span></p>
+                            <p><b>Description </b><span style="margin-left: 4em">: {{$user->email}}</span></p>
+                            <p><b>Closing Date </b><span style="margin-left: 4em">: {{$user->contact_number}}</span></p>
+                            <p><b>Start timr </b><span style="margin-left: 4em">: {{$user->address}}</span></p>
+                            <p><b>End time </b><span style="margin-left: 4em">: {{$user->job_title}}</span></p>
+                            <p><b>Personal profile </b><span style="margin-left: 4em">:
+                                    {{$user->personal_profile}}</span></p>
+                            <p><b>Organisation Name </b><span style="margin-left: 4em">:
+                                    {{$user->organisation->organisation_name}}</span></p>--}}
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label class="col-xs-4" for="starts-at">Starts at</label>
-                            <input type="text" name="starts_at" id="starts-at" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label class="col-xs-4" for="ends-at">Ends at</label>
-                            <input type="text" name="ends_at" id="ends-at" />
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="card ">
+                            <div class="card-header card-header-primary">
+                                <h4 class="card-title">{{ __('Sign ups for this call') }}</h4>
+                            </div>
+                            <div class="card-body ">
+                                <div class="table-responsive">
+                                    <table class="table" id="signup-table" style="width: 100%!important">
+                                        <thead class=" text-primary">
+                                            <th>Organisation</th>
+                                            <th>User</th>
+                                            <th>Sign up Date</th>
+                                            <th>Actions</th>
+                                        </thead>
+                                        <tbody>
+                                            {{--@foreach($call->callSignUp as $signUp)
+                                        <tr>
+                                            <td>{{$user->title}}</td>
+                                            <td>{{$user->name}}</td>
+                                            <td>{{$user->surname}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" id="{{$user->id}}"
+                                                    onclick="editUser(this)">Edit</button>
+
+                                                <button type="button" class="btn btn-primary" id="{{$user->id}}"
+                                                    onclick="view(this)">View</button>
+                                                <button type="button" class="btn btn-danger" id="{{$user->id}}"
+                                                    onclick="deleteUser(this)">Delete</button>
+                                            </td>
+                                            </tr>
+                                            @endforeach--}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-event">Save changes</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
-    @push('custom-scripts')
-        <script>
-            function myFunction() {
-                alert(event.title);
-            }
-            $(document).ready(function() {
-                $(function() {
-                    $('#calendar-{{$calendar->getId()}}').fullCalendar({
-                        selectable: true,
-                        header: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'month,agendaWeek,agendaDay'
-                        },
-                        eventMouseover: function(event, jsEvent, view) {
-                            $('.fc-event-inner', this).append('<div id=\"'+event.id+'\" class=\"hover-end\">'+$.fullCalendar.formatDate(event.end, 'h:mmt')+'</div>');
-                        },
-
-                        eventMouseout: function(event, jsEvent, view) {
-                            $('#'+event.id).remove();
-                        }
-                    });
-
-                });
-
-            });
-            </script>
-    @endpush
-
-
-@endsection
+                @endsection
