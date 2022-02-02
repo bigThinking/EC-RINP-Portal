@@ -43,12 +43,18 @@
                                             <input name="organisation_name" type="text" id="organisation_name" value="{{$organisation->organisation_name}}" class="form-control"
                                                    placeholder="Organisation Name">
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
                                         <div class="col">
-                                            <input name="description" type="text" id="description" value="{{$organisation->description}}" class="form-control"
-                                                   placeholder="Description">
+                                            <textarea class="form-control" rows = "5" cols = "110" name="description" type="text" id="description"
+                                                   placeholder="Description of what organisation does">{{$organisation->description}}</textarea>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">

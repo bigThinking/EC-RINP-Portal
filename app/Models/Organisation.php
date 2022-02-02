@@ -15,7 +15,15 @@ class Organisation extends BaseModel
         return $this->hasMany(User::class, 'organisation_id');
     }
 
+    public function project(){
+        return $this->hasOne(Project::class, 'organisation_id');
+    }
+
     public function call(){
         return $this->hasMany(Call::class, 'organisation_id');
+    }
+
+    public function callSignUp(){
+        return $this->hasMany(callSignUp::class, 'user_organisation_id');
     }
 }

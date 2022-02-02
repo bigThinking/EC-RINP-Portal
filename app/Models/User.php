@@ -39,6 +39,11 @@ class User extends Authenticatable
     public function task(){
         return $this->hasMany(Task::class,'user_id');
     }
+
+    public function callSignUp(){
+        return $this->hasMany(callSignUp::class, 'user_id');
+    }
+
     protected $hidden = [
         'password',
         'remember_token',

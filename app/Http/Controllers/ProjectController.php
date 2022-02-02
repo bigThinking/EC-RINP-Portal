@@ -20,7 +20,6 @@ class ProjectController extends Controller
     {
         $logged_in_user = Auth::user()->load('roles');
 
-        //Check if logged in user is admin, else return 404
         if ($logged_in_user->roles[0]->name == 'innovator') {
             return view('roles.project.create-project');
         }else {
@@ -48,7 +47,7 @@ class ProjectController extends Controller
             }
             DB::commit();
             return redirect()
-                ->to('/edit-user-project/'.$logged_in_user->id)
+                ->route('edit-user-project',$logged_in_user->id)
                 ->withInput()
                 ->with('success_message', 'Project created successfully.');
         } catch (\Exception $e) {
@@ -62,8 +61,7 @@ class ProjectController extends Controller
 
     //update users project
     public function editUserProject(User $user){
-        $user->load('project');
-        $logged_in_user = Auth::user()->load('roles');
+        $logged_in_user = Auth::user()->load('roles', 'organisation.project');
 
         //Check if logged in user is admin, else return 404
         if ($logged_in_user->roles[0]->name == 'innovator') {
@@ -79,7 +77,7 @@ class ProjectController extends Controller
         DB::beginTransaction();
         $input = $request->all();
         try {
-            $user->project()->update(['project_name' => $input['project_name'],
+            $user->organisation()->project()->update(['project_name' => $input['project_name'],
                 'description' => $input['description']]);
 
             $user->save();
@@ -87,7 +85,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return redirect()
-                ->to('/edit-user-project/'.$user->id)
+                ->route('edit-user-project',$user->id)
                 ->withInput()
                 ->with('success_message', 'Project updated successfully.');
         } catch (\Exception $e) {
@@ -544,7 +542,7 @@ class ProjectController extends Controller
         }
 
         //Check if logged in user is admin, else return 404
-        if($logged_in_user->roles[0]->name == 'Facilitator') {
+        if($logged_in_user->roles[0]->name == config('constants.FACILITATOR')) {
             return view('roles.project-stages.task-index', compact('task_array'));
         }
     }

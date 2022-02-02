@@ -48,7 +48,7 @@
                                     <div class="row">
                                         <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
                                         <div class="col">
-                                            <textarea rows = "5" cols = "130" name = "description" id="description" value="{{$user->organisation->description}}" placeholder="Description">{{$user->organisation->description}}</textarea><br>
+                                            <textarea  class="form-control" rows = "5" cols = "130" name = "description" id="description" value="{{$user->organisation->description}}" placeholder="Description">{{$user->organisation->description}}</textarea><br>
                                         </div>
                                     </div>
                                 </div>

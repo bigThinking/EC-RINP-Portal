@@ -126,7 +126,7 @@ class OrganisationsController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->with('error', config('constants.SUPPORT_MESSAGE'));
         }
     }
 
@@ -170,7 +170,7 @@ class OrganisationsController extends Controller
             DB::commit();
 
             return redirect()
-                ->to('/edit-user-organisation/'.$user->id)
+                ->route('editUserOrganisation',$user->id)
                 ->withInput()
                 ->with('success_message', 'Organisation updated successfully.');
         } catch (\Exception $e) {

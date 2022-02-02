@@ -4,8 +4,8 @@
 
 <?php
     $user = \Illuminate\Support\Facades\Auth::user();
-
  ?>
+
 <div class="content">
     <div class="container-fluid">
         @if (session()->has('success_message'))
@@ -30,53 +30,91 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title ">{{$call->title}}</h4>
+                        <h4 class="card-title "><strong>Title: </strong> {{$call->title}}</h4>
                     </div>
                     <div class="card-body">
-                        @if($user->roles[0]->name == config('constants.ADMINISTRATOR'))
-                        <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
-                            href="{{route('edit-call', $call->id)}}" title="Create new call"><i
-                                class="large material-icons">add</i> Edit this call
-                        </a>
+                        <div class="row justify-content-end">
+                            @if($user->organisation_id == $call->organisation_id && ($user->roles[0]->name ==
+                            config('constants.ADMINISTRATOR') || $user->roles[0]->name == config('constants.INCUBATOR')
+                            || $user->roles[0]->name == config('constants.FACILITATOR')))
+                            <div class="col">
+                                <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
+                                    href="{{route('edit-call', $call->id)}}">Edit this call
+                                </a>
 
-                        <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
-                            href="{{route('delete-call', $call->id)}}" title="Create new call"><i
-                                class="large material-icons">add</i> Delete call
-                        </a>
-                        @endif
+                                <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
+                                    href="{{route('delete-call', $call->id)}}">Delete call
+                                </a>
+                            </div>
+                            @endif
 
-                        @if($user->roles[0]->name == config('constants.ADMINISTRATOR'))
-                                                    <a type="button" class="btn btn-primary" data-toggle="tooltip"
-                                                        data-placement="bottom" href="{{route('show-call', $call->id)}}"
-                                                        title="View this call">View
-                                                    </a>
+                            @if($user->roles[0]->name == config('constants.INNOVATOR') && $showApply == True)
+                            <button id="apply" type="button" class="btn btn-primary" onclick="signUp(this)"
+                                data-callid="{{$call->id}}">Apply</button>
+                            @endif
+                        </div>
 
-                                                    <button type="button" class="btn btn-primary" onclick="signUp(this)"
-                                                        data-callid="{{$call->id}}">Sign up</button>
-                                                    @endif
+                        <div class="container pt-5">
+                            <div class="row justify-content-start">
+                                <div class="col-sm-3">
+                                    <h4>Organisation </h4>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p>{{$call->organisation->organisation_name}}</p>
+                                </div>
+                            </div>
 
-                        <div class="container">
-                            <p><b>Organisation </b><span style="margin-left: 4em">: {{$call->description}}</span></p>
-                            {{-- <p><b>Call Type  </b><span style="margin-left: 3em">: {{$user->surname}}</span></p>
-                            <p><b>Description </b><span style="margin-left: 4em">: {{$user->email}}</span></p>
-                            <p><b>Closing Date </b><span style="margin-left: 4em">: {{$user->contact_number}}</span></p>
-                            <p><b>Start timr </b><span style="margin-left: 4em">: {{$user->address}}</span></p>
-                            <p><b>End time </b><span style="margin-left: 4em">: {{$user->job_title}}</span></p>
-                            <p><b>Personal profile </b><span style="margin-left: 4em">:
-                                    {{$user->personal_profile}}</span></p>
-                            <p><b>Organisation Name </b><span style="margin-left: 4em">:
-                                    {{$user->organisation->organisation_name}}</span></p>--}}
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <h4>Description</h4>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p>{{$call->description}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <h4>Application closing date</h4>
+                                </div>
+                                <div class="col-sm-9">
+                                   <p>{{$call->closing_date}}</p>
+                                </div>
+                            </div>
+
+                            @if($call->call_type == 'Event')
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <h4>Event start time</h4>
+                                </div>
+                                <div class="col-sm-9">
+                                   <p>{{$call->start_time}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <h4>Event ending</h4>
+                                </div>
+                                <div class="col-sm-9">
+                                   <p>{{$call->end_time}}</p>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
 
 
+                @if($user->organisation_id == $call->organisation_id && ($user->roles[0]->name ==
+                            config('constants.ADMINISTRATOR') || $user->roles[0]->name == config('constants.INCUBATOR')
+                            || $user->roles[0]->name == config('constants.FACILITATOR')))
                 <div class="row">
                     <div class="col-md-12">
 
                         <div class="card ">
                             <div class="card-header card-header-primary">
-                                <h4 class="card-title">{{ __('Sign ups for this call') }}</h4>
+                                <h4 class="card-title">{{ __('Applicants for this call') }}</h4>
                             </div>
                             <div class="card-body ">
                                 <div class="table-responsive">
@@ -88,22 +126,17 @@
                                             <th>Actions</th>
                                         </thead>
                                         <tbody>
-                                            {{--@foreach($call->callSignUp as $signUp)
+                                            @foreach($call->callSignUp as $signUp)
                                         <tr>
-                                            <td>{{$user->title}}</td>
-                                            <td>{{$user->name}}</td>
-                                            <td>{{$user->surname}}</td>
+                                            <td>{{$signUp->organisation->organisation_name}}</td>
+                                            <td>{{ $signUp->${$user->name.' '.$user->surname} }}</td>
+                                            <td>{{$signUp->created_at}}</td>
                                             <td>
-                                                <button type="button" class="btn btn-primary" id="{{$user->id}}"
-                                                    onclick="editUser(this)">Edit</button>
-
-                                                <button type="button" class="btn btn-primary" id="{{$user->id}}"
-                                                    onclick="view(this)">View</button>
-                                                <button type="button" class="btn btn-danger" id="{{$user->id}}"
-                                                    onclick="deleteUser(this)">Delete</button>
+                                                <button type="button" class="btn btn-primary" id="{{$signUp->id}}"
+                                                    onclick="">Create report</button>                                              
                                             </td>
                                             </tr>
-                                            @endforeach--}}
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -111,5 +144,27 @@
                         </div>
                     </div>
                 </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
 
-                @endsection
+@push('custom-scripts')
+<script>
+function signUp(obj) {
+    var plainUrl = "{{route('call-signup', ':id')}}";
+    var tempUrl = plainUrl.replace(":id", $("#"+obj.id).data("callid"));
+    $.get({
+        url: tempUrl,
+        success: function(response) {
+            console.log(response);
+            var modal = $(this);
+            var data = JSON.parse(response);
+        }
+    })
+}
+</script>
+@endpush
+
+@endsection

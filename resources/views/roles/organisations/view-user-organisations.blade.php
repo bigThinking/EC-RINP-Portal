@@ -35,7 +35,7 @@
                                     <p  class="card-category"><span style="font-size: 2em;" class="text-success"></span> Organisation : {{$user->organisation->organisation_name}}</p>
                                 </div>
                                 <div class="card-footer" style="margin: 0 auto">
-                                    <a style="color: blue" href="{{url('/user-profile/'.$user->id)}}">
+                                    <a style="color: blue" href="{{route('user-profile', $user->id)}}">
                                         <i class="material-icons">person</i>View {{$user->name}}</a>
                                 </div>
                                 <br>

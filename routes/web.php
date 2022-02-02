@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('users',[App\Http\Controllers\HomeController::class,'viewAllUsers']);
-Route::get('/user-profile/{user}',[App\Http\Controllers\HomeController::class, 'viewUserProfile']);
+Route::get('/user-profile/{user}',[App\Http\Controllers\HomeController::class, 'viewUserProfile'])->name('user-profile');
 Route::get('organisations',[App\Http\Controllers\HomeController::class,'viewAllOrganisations']);
 Route::get('/view-organisation-users/{organisation}',[App\Http\Controllers\HomeController::class,'organisationUsers'])->name('view-organisation-users');
 
@@ -102,7 +102,7 @@ Route::get('stages-index',[App\Http\Controllers\ProjectController::class,'stageI
 Route::get('/edit-stages/{stage}',[App\Http\Controllers\ProjectController::class, 'editStage'])->name('edit-stages');
 Route::put('/update-stage/{stage}',[App\Http\Controllers\ProjectController::class,'updateStage'])->name('update-stage');
 
-//INCUBATEE ASIGN STAGE TO PROJECT
+//INCUBATEE ASSIGN STAGE TO PROJECT
 Route::put('/assign-stage-to-project/{project}',[App\Http\Controllers\ProjectController::class, 'incubateeStoreProjectStage'])->name('assign-stage-to-project');
 Route::put('/assign-graduation-stage-to-project/{stage}',[App\Http\Controllers\ProjectController::class, 'incubateeStoreGraduationStage'])->name('assign-graduation-stage-to-project');
 Route::put('/assign-task-to-project-stage/{stage}',[App\Http\Controllers\ProjectController::class, 'incubateeStoreProjectStageStask'])->name('assign-task-to-project-stage');

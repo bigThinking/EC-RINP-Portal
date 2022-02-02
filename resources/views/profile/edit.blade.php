@@ -123,6 +123,7 @@
                             </div>
                         </div>
                     </div>
+                    <br>
                     @if($user->is_innovator == 'No')
                         <div class="" hidden>
                             <div class="row">
@@ -146,6 +147,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <br>
                             <div class="row">
                                 <label class="col-sm-2 col-form-label">{{ __('Race') }}</label>
                                 <div class="col col-sm-7">
@@ -193,6 +195,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <br>
                             <div class="row">
                                 <label class="col-sm-2 col-form-label">{{ __('Race') }}</label>
                                 <div class="col col-sm-7">
@@ -205,15 +208,16 @@
                                     </select>
                                 </div>
                             </div>
+                            <br>
                             <div class="row">
-                                <label class="col-sm-2 col-form-label">{{ __('Personal profile') }}</label>
+                                <label class="col-sm-2 col-form-label">{{ __('Highest Education Level') }}</label>
                                 <div class="col-sm-7">
-                                    <div class="form-group{{ $errors->has('personal_profile') ? ' has-danger' : '' }}">
-                                        <input class="form-control{{ $errors->has('Personal profile') ? ' is-invalid' : '' }}" name="personal_profile" id="input-personal_profile" type="text" placeholder="{{ __('Personal profile') }}" value="{{ old('personal_profile', auth()->user()->personal_profile) }}" required="true" aria-required="true"/>
-                                        @if ($errors->has('personal_profile'))
-                                            <span id="personal_profile-error" class="error text-danger" for="input-personal_profile">{{ $errors->first('personal_profile') }}</span>
-                                        @endif
-                                    </div>
+                                    <select id="personal_profile" name="personal_profile" class="browser-default custom-select">
+                                        <option value="" disabled selected>{{ old('personal_profile', auth()->user()->personal_profile) }}</option>
+                                        <option value="black">Post-graduate degree</option>
+                                        <option value="white">Degree</option>
+                                        <option value="indian">Matric</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

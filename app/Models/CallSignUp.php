@@ -13,4 +13,12 @@ class CallSignUp extends BaseModel
     public function call(){
         return $this->belongsTo(Call::class, 'call_id');
     }
+
+    public function user(){
+        return this.belongsTo(User::class, 'user_id');
+    }
+
+    public function organisation(){
+        return this.belongsTo(Organisation::class, 'user_organisation_id');
+    }
 }

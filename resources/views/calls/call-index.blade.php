@@ -32,31 +32,30 @@
                         <h4 class="card-title ">Calls</h4>
                     </div>
                     <div class="card-body">
+                        @if($user->roles[0]->name == config('constants.ADMINISTRATOR') || $user->roles[0]->name ==
+                        config('constants.INCUBATOR') || $user->roles[0]->name == config('constants.FACILITATOR'))
                         <div class="row">
-                        <div class="col">
-                            <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
-                                href="{{url('create-call')}}" title="Create new call">Create new call
-                            </a>
+                            <div class="col">
+                                <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
+                                    href="{{url('create-call')}}" title="Create new call">Create new call
+                                </a>
                             </div>
 
-                            @if($user->roles[0]->name == 'administrator')
                             <div class="col">
-                            <div class="row">
-                                
-                                <label class="col h4 text-right" style="padding-top:10px;" for="callSet">Show:</label>
-                            
-                                
-                                <select name="callSet" id="callSet" class="col browser-default custom-select"
-                                    onchange="getCallSet()">
-                                    <option value="all">All Calls</option>
-                                    <option value="organisation" {{ $onOrganisation ? __('selected') : __('') }}>My
-                                        Organisation's Calls</option>
-                                </select>
-                                
+                                <div class="row">
+                                    <label class="col h4 text-right" style="padding-top:10px;"
+                                        for="callSet">Show:</label>
+                                    <select name="callSet" id="callSet" class="col browser-default custom-select"
+                                        onchange="getCallSet()">
+                                        <option value="all">All Calls</option>
+                                        <option value="organisation" {{ $onOrganisation ? __('selected') : __('') }}>My
+                                            Organisation's Calls</option>
+                                    </select>
+
+                                </div>
                             </div>
-                           </div>
-                            @endif
                         </div>
+                        @endif
 
                         <div class="d-flex">
                             <div class="mx-auto">
@@ -65,36 +64,31 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-borderless" id="roles-table"
-                                style="width:100%!important;">
+                            <table class="table table-borderless" id="roles-table" style="width:100%!important;">
                                 <tbody>
                                     @foreach($calls as $call)
                                     @if(($loop->index+1)%3 == 1)
                                     <tr>
                                         @endif
                                         <td>
-                                            <div class="card" style="width: 20rem;">
+                                            <div class="card" style="width: 20rem; cursor: pointer;"
+                                                onclick="location.href='{{route('show-call', $call->id)}}';">
+                                                @if($call->image_url != '')
                                                 <img class="card-img-top"
-                                                    src="https://images.unsplash.com/photo-1517303650219-83c8b1788c4c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=bd4c162d27ea317ff8c67255e955e3c8&auto=format&fit=crop&w=2691&q=80"
+                                                    src="{{ asset('storage/calls/').'/'.$call->image_url }}"
                                                     alt="Card image cap">
+                                                @endif
                                                 <div class="card-body">
-                                                    <h4 class="card-title">{{$call->title}}</h4>
-                                                    <h6 class="card-subtitle mb-2 text-muted">organisation</h6>
-                                                    <p class="card-text">{{$call->description}}</p>
-                                                    <p class="card-text">Closing date: {{$call->closing_date}}</p>
-                                                    @if($user->roles[0]->name == config('constants.ADMINISTRATOR'))
-                                                    <a type="button" class="btn btn-primary" data-toggle="tooltip"
-                                                        data-placement="bottom" href="{{route('show-call', $call->id)}}"
-                                                        title="View this call">View
-                                                    </a>
-
-                                                    <button type="button" class="btn btn-primary" onclick="signUp(this)"
-                                                        data-callid="{{$call->id}}">Sign up</button>
-                                                    @endif
+                                                    <h4 class="card-title">{{Str::limit($call->title, 80)}}</h4>
+                                                    <h6 class="card-subtitle mb-2 text-muted">
+                                                        {{ Str::limit($call->organisation->organisation_name, 40) }}
+                                                    </h6>
+                                                    <p class="card-text">{{ Str::limit($call->description, 200) }}</p>
+                                                    <p class="card-text"><Strong>Closing date: </strong> {{$call->closing_date}}</p>
                                                 </div>
                                             </div>
                                         </td>
-                                    @if(($loop->index+1)%3 == 0)
+                                        @if(($loop->index+1)%3 == 0)
                                     </tr>
                                     @endif
                                     @endforeach
