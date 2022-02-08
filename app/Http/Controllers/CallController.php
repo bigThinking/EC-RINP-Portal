@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Call;
 use App\Models\CallSignUp;
 use App\Models\CallType;
+use App\Models\CallSignUpReport;
 use App\Traits\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CallController extends Controller
 {
     use Media;
 
-    //todo test-apply,edit,delete, create call report CRUD, integrate call functionality with calendar and fix view events, enforce constraints on db
+    //todo integrate call functionality with calendar and fix view events, enforce constraints on db
     //create project view, send email receipts and fix other emails 
     //fix organisation and user profiles, organisation logo upload, implement logging- 5hrs
     public function callIndex()
@@ -85,11 +87,23 @@ class CallController extends Controller
                     'user_organisation_id' => $logged_in_user->organisation_id,
                 ]);
                 $callSignUp->save();
+
+                $callSignUpReport = CallSignUpReport::create([
+                    'call_sign_up_id' => $callSignUp-> id,
+                    'report' => '',
+                    'last_edited_by_user_id' => ''
+                ]);
+                $callSignUpReport->save();
             DB::commit();
-            return response()->json(['success_message' => 'You have been successfully applied for this call. You will receive an email receipt.'], 200);
+
+            return redirect()
+            ->route('show-call', $callId)
+            ->with('success_message', 'You have been successfully applied for this call. You will receive an email receipt.');
         } catch (Exception $e) {
             DB::rollback();
-            return response()->json(['errors' => config('constants.SUPPORT_MESSAGE')], 200);
+            return redirect()
+            ->route('show-call', $callId)
+            ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -148,7 +162,7 @@ class CallController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('errors', [config('constants.SUPPORT_MESSAGE')]);
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -173,7 +187,8 @@ class CallController extends Controller
     public function updateCall(Request $request, $callId)
     {
         $logged_in_user = Auth::user()->load('roles');
-        if ($logged_in_user->organisation_id != $call->organisation_id or ($logged_in_user->roles[0]->name != config('constants.ADMINISTRATOR') and $logged_in_user->roles[0]->name != config('constants.INCUBATOR') and $logged_in_user->roles[0]->name == config('constants.FACILITATOR'))) {
+        $call = Call::find($callId);
+        if ($logged_in_user->organisation_id != $call->organisation_id or ($logged_in_user->roles[0]->name != config('constants.ADMINISTRATOR') and $logged_in_user->roles[0]->name != config('constants.INCUBATOR') and $logged_in_user->roles[0]->name != config('constants.FACILITATOR'))) {
             abort(401);
         }
 
@@ -185,7 +200,7 @@ class CallController extends Controller
         ]);
 
         $input = $request->all();
-        $fileData = $this->uploads($input['image'],'calls/');
+        $fileData = isset($input['image']) ? $this->uploads($input['image'],'calls/') : null;
         DB::beginTransaction();
         
         try {
@@ -193,11 +208,10 @@ class CallController extends Controller
                     'description' => $input['description'],
                     'call_type' => $input['call_type'],
                     'closing_date' => $input['closing_date'],
-                    'image_url' => $fileData['fileName'],
+                    'image_url' => $fileData == null ? '' : $fileData['fileName'],
                     'start_time' => $input['start_time'],
                     'end_time' => $input['end_time'],
                 ]);
-                $update_call->save();
 
             DB::commit();
 
@@ -210,7 +224,7 @@ class CallController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('errors', config(['constants.SUPPORT_MESSAGE']));
+                ->withErrors([config(['constants.SUPPORT_MESSAGE'])]);
         }
     }
 
@@ -235,7 +249,54 @@ class CallController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('errors', config('constants.SUPPORT_MESSAGE'));
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
+        }
+    }
+
+    public function editSignUpReport($callSignUpId)
+    {
+        $logged_in_user = Auth::user()->load('roles');
+        $call_sign_up_report = CallSignUpReport::All()->where('call_sign_up_id', $callSignUpId)->load('callSignUp', 'callSignUp.user', 'callSignUp.organisation', 'callSignUp.call', 'user');
+
+        if(($logged_in_user->organisation_id == $call_sign_up_report[0]->callSignUp->call->organisation_id &&  $logged_in_user->roles[0]->name == config('constants.FACILITATOR')) || ($logged_in_user->roles[0]->name ==
+                            config('constants.ADMINISTRATOR') || $logged_in_user->roles[0]->name == config('constants.INCUBATOR'))){
+            return view('calls.call-signup-report', compact('call_sign_up_report'));
+        } else {
+            abort(401);
+        }
+    }
+
+    public function updateSignUpReport(Request $request, $callSignUpId)
+    {
+        $logged_in_user = Auth::user()->load('roles');
+        $call_sign_up_report = CallSignUpReport::All()->where('call_sign_up_id', $callSignUpId)->load("callSignUp", "callSignUp.call");
+
+        Log::info($call_sign_up_report);
+        if(!(($logged_in_user->organisation_id == $call_sign_up_report[0]->callSignUp->call->organisation_id &&  $logged_in_user->roles[0]->name == config('constants.FACILITATOR')) || ($logged_in_user->roles[0]->name ==
+                            config('constants.ADMINISTRATOR') || $logged_in_user->roles[0]->name == config('constants.INCUBATOR')))){
+            abort(401);
+        }
+
+        $input = $request->all();
+        DB::beginTransaction();
+        
+        try {
+                $update_call_sign_up_report = CallSignUpReport::find($call_sign_up_report[0]->id)->update(['report' => $input['report'],
+                    'last_edited_by_user_id' => $logged_in_user -> id,
+                ]);
+
+            DB::commit();
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('success_message', 'Report updated successfully.');
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors([config(['constants.SUPPORT_MESSAGE'])]);
         }
     }
 }

@@ -22,7 +22,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4 class="card-title ">View referred tasks</h4>
+                            <h4 class="card-title ">View Resource Requests</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

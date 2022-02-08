@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'Reply to Resource Request', 'titlePage' => __('Resource Request')])
+@extends('layouts.app', ['activePage' => 'call_signup_report', 'titlePage' => __('Application report')])
 
 @section('content')
     <head>
@@ -19,34 +19,34 @@
                     @endforeach
                 </ul>
             </div>
-
         @endif
+        <!-- call title
+              user name
+            user organisation
+            last edited by
+         -->
             <div id="resume">
                 <img src="{{ asset('images') }}/rinp_logo.png" alt="EC-RINP logo">
-                <h1>Project name :  {{$task->project_name}}</h1>
-                <p>Organisation: <a href=# id="{{$userOrganisation->id}}">{{$userOrganisation->organisation_name}}</a></p>
-                <p>Project description: {{$task->project_description}}</p>
-                <p>Project stage : {{$userStage->project_stage}}</p>
+                <h1>Call title :  {{$call_sign_up_report[0]->callSignUp->call->title}}</h1>
+                <p>Innovator Name: {{$call_sign_up_report[0]->callSignUp->user->name.' '.$call_sign_up_report[0]->callSignUp->user->surname}}</p>
+                <p>Innovator Organisation: {{$call_sign_up_report[0]->callSignUp->organisation->name}}</p>
+                <p>Report last edited by : {{$call_sign_up_report[0]->user != null ? $call_sign_up_report[0]->user->name.' '.$call_sign_up_report[0]->user->surname : ''}}</p>
+                <p>Report last edited on : {{$call_sign_up_report[0]-> updated_at}}</p>
                 <div class="col-md-12">
-                    <form id="edit-role" method="post" action="{{ route('update-task-reply', $task->id) }}"
+                    <form method="post" action="{{ route('save-signup-report', $call_sign_up_report[0]->callSignUp->id) }}"
                           class="form-horizontal">
                         @csrf
                         @method('put')
                         <div class="card ">
-                            <input value="{{$task->id}}" id="user_id" hidden>
+                           
                             <div class="card-body ">
-                                <br>
-                                <h2 style=" font-weight: bold;">Referral Task</h2>
-                                <p>Title : {{$task->title}}</p>
-                                <p>Description : {{$task->description}}</p>
-                                <br>
                                 <div class="row">
-                                    <label class="col-sm-2 col-form-label">{{ __('Reply') }}</label>
+                                    <label class="col-sm-2 col-form-label">{{ __('Application report') }}</label>
                                     <div class="col-sm-7">
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col">
-                                                    <textarea rows = "5" cols = "80" name = "reply" id="reply" >{{$task->reply}}</textarea><br>
+                                                    <textarea class="form-control" rows = "5" cols = "120" name = "report" id="report" >{{$call_sign_up_report[0]->report}}</textarea><br>
                                                 </div>
                                             </div>
                                         </div>

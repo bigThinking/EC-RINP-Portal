@@ -22,7 +22,7 @@
             </ul>
         </div>
         @endif
-        <a href="{{ url()->previous() }}">
+        <a href="{{ route('view-calls') }}">
             <button style="margin-left: 2em" type="submit" id="save-organisation"
                 class="btn btn-primary">{{ __('Back') }}</button>
         </a>
@@ -49,8 +49,11 @@
                             @endif
 
                             @if($user->roles[0]->name == config('constants.INNOVATOR') && $showApply == True)
-                            <button id="apply" type="button" class="btn btn-primary" onclick="signUp(this)"
-                                data-callid="{{$call->id}}">Apply</button>
+                            <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
+                                    href="{{route('call-signup', $call->id)}}">Apply
+                            </a>
+                            {{--<button id="apply" type="button" class="btn btn-primary" onclick="signUp(this)"
+                                data-callid="{{$call->id}}">Apply</button>--}}
                             @endif
                         </div>
 
@@ -106,9 +109,8 @@
                 </div>
 
 
-                @if($user->organisation_id == $call->organisation_id && ($user->roles[0]->name ==
-                            config('constants.ADMINISTRATOR') || $user->roles[0]->name == config('constants.INCUBATOR')
-                            || $user->roles[0]->name == config('constants.FACILITATOR')))
+                @if(($user->organisation_id == $call->organisation_id &&  $user->roles[0]->name == config('constants.FACILITATOR')) || ($user->roles[0]->name ==
+                            config('constants.ADMINISTRATOR') || $user->roles[0]->name == config('constants.INCUBATOR')))
                 <div class="row">
                     <div class="col-md-12">
 
@@ -129,11 +131,12 @@
                                             @foreach($call->callSignUp as $signUp)
                                         <tr>
                                             <td>{{$signUp->organisation->organisation_name}}</td>
-                                            <td>{{ $signUp->${$user->name.' '.$user->surname} }}</td>
+                                            <td>{{ $signUp->user->name.' '.$signUp->user->surname }}</td>
                                             <td>{{$signUp->created_at}}</td>
                                             <td>
-                                                <button type="button" class="btn btn-primary" id="{{$signUp->id}}"
-                                                    onclick="">Create report</button>                                              
+                                            <a type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
+                                                href="{{route('edit-signup-report', $signUp->id)}}">Edit report
+                                             </a>                                         
                                             </td>
                                             </tr>
                                             @endforeach

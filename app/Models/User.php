@@ -44,6 +44,9 @@ class User extends Authenticatable
         return $this->hasMany(callSignUp::class, 'user_id');
     }
 
+    public function callSignUpReport(){
+        return $this->hasMany(callSignUpReport::class, 'last_edited_by_user_id');
+    }
     protected $hidden = [
         'password',
         'remember_token',

@@ -137,7 +137,7 @@
                                             <div class="row">
                                                 <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
                                                 <div class="col">
-                                                    <textarea rows="5" cols="80" name="stage_description"
+                                                    <textarea class="form-control" rows="5" cols="50" name="stage_description"
                                                               id="stage_description"
                                                              ></textarea><br>
                                                 </div>

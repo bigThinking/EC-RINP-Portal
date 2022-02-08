@@ -281,7 +281,7 @@ $role = $user->roles[0];
     <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#Task" aria-expanded="true">
             <i class="material-icons black">person</i>
-            <p>{{ __('Tasks') }}
+            <p>{{ __('Resource requests') }}
                 <b class="caret"></b>
             </p>
         </a>
@@ -290,7 +290,7 @@ $role = $user->roles[0];
                 <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" href="{{ route('task-index') }}">
                         <span class="sidebar-mini"> <i class="material-icons black">person</i> </span>
-                        <span class="sidebar-normal"> {{ __('View referred task') }} </span>
+                        <span class="sidebar-normal"> {{ __('View resource requests') }} </span>
                     </a>
                 </li>
             </ul>

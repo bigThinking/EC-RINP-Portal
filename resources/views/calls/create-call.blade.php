@@ -20,7 +20,7 @@
             </ul>
         </div>
         @endif
-        <a href="{{ url()->previous() }}">
+        <a href="{{ old('redirect_to', URL::previous())}}">
             <button style="margin-left: 2em" type="submit" id="save-organisation"
                 class="btn btn-primary">{{ __('Back') }}</button>
         </a>
@@ -30,14 +30,19 @@
                     action="{{$editing ? route('update-call', $call->id) : route('save-call')}}" class="form-horizontal"
                     enctype="multipart/form-data">
                     @csrf
+                    @if($editing)
+                    @method('put')
+                    @else
                     @method('post')
+                    @endif
+                    {!! Form::hidden('redirect_to', old('redirect_to', URL::previous())) !!}
                     <div class="card ">
                         <div class="card-header card-header-primary">
                             <h4 class="card-title">{{$editing ?  __('Edit Call') : __('Create A New Call') }}</h4>
                         </div>
                         <div class="card-body ">
                             <label>Title</label>
-                            <input name="title" type="text" id="title" class="form-control">{{ $editing ? old('title', $call->title) : '' }}</input>
+                            <input name="title" type="text" id="title" class="form-control" value="{{ $editing ? old('title', $call->title) : '' }}"></input>
                             @if ($errors->has('title'))
                                 <div id="title-error" class="error text-danger pl-3" for="title"
                                     style="display: block;">

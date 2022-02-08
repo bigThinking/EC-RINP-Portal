@@ -94,6 +94,8 @@ Route::get('view-calls/organisation',[App\Http\Controllers\CallController::class
 Route::get('get-call/{call}',[App\Http\Controllers\CallController::class,'getCall'])->name('get-call');
 Route::get('show-call/{call}',[App\Http\Controllers\CallController::class,'showCall'])->name('show-call');
 Route::get('signup/{call}',[App\Http\Controllers\CallController::class,'signUp'])->name('call-signup');
+Route::get('edit-signup-report/{signUp}',[App\Http\Controllers\CallController::class,'editSignUpReport'])->name('edit-signup-report');
+Route::put('save-signup-report/{signUp}',[App\Http\Controllers\CallController::class,'updateSignUpReport'])->name('save-signup-report');
 
 //STAGES
 Route::get('create-stages',[App\Http\Controllers\ProjectController::class, 'createStages'])->name('create-stages');

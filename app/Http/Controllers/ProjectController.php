@@ -211,7 +211,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return redirect()
-                ->to('project-stage-index')
+                ->route('project-stage-index')
                 ->withInput()
                 ->with('success_message', 'Project stage updated successfully.');
         } catch (\Exception $e) {
@@ -272,7 +272,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return redirect()
-                ->to('project-index')
+                ->route('project-index')
                 ->withInput()
                 ->with('success_message', 'Project updated successfully.');
         } catch (\Exception $e) {
@@ -374,7 +374,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return redirect()
-                ->to('/edit-stages/'.$stage->id)
+                ->route('edit-stages',$stage->id)
                 ->withInput()
                 ->with('success_message', 'Stage updated successfully.');
         } catch (\Exception $e) {
@@ -402,7 +402,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return redirect()
-                ->to('/incubatee-edit-user-project/'.$project->id)
+                ->route('incubatee-edit-user-project',$project->id)
                 ->withInput()
                 ->with('success_message', 'Project stage added successfully.');
         } catch (\Exception $e) {
@@ -442,7 +442,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return redirect()
-                ->to('/graduate-stage/'.$stage->id)
+                ->route('graduate-stage',$stage->id)
                 ->withInput()
                 ->with('success_message', 'Graduation stage added successfully.');
         } catch (\Exception $e) {
@@ -480,7 +480,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return redirect()
-                ->to('/view-tasks/' . $stage->id)
+                ->to('view-tasks', $stage->id)
                 ->withInput()
                 ->with('success_message', 'Task added successfully.');
         } catch (\Exception $e) {
@@ -560,7 +560,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return redirect()
-                ->to('/incubatee-edit-user-project/' . $project->id)
+                ->route('incubatee-edit-user-project', $project->id)
                 ->withInput()
                 ->with('success_message', 'Project closed successfully.');
         } catch (\Exception $e) {
@@ -611,7 +611,6 @@ class ProjectController extends Controller
         }
     }
 
-
     //GRADUATE STAGE
     public function graduateStage(Stage $stage){
         $projectStages = ProjectStage::all();
@@ -640,8 +639,6 @@ class ProjectController extends Controller
                 'projectStages', 'graduations'));
         }
     }
-
-
 
     //Task replies
     public function addTaskReplies(Task $task){
@@ -739,7 +736,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return redirect()
-                ->to('/edit-close-task/' . $task->id)
+                ->route('edit-close-task', $task->id)
                 ->withInput()
                 ->with('success_message', 'Task closed successfully.');
         } catch (\Exception $e) {
@@ -817,7 +814,6 @@ class ProjectController extends Controller
 
         }
 
-        //Check if logged in user is admin, else return 404
         if ($logged_in_user->roles[0]->name == 'Incubator staff' or $logged_in_user->roles[0]->name == 'administrator') {
             return view('roles.project.project-user-organisation', compact('project','user','organisation_array'));
         }
