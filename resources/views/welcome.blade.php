@@ -3,8 +3,8 @@
 @section('content')
 <div class="container" style="height: auto;">
   <div class="row justify-content-center">
-      <div class="col-lg-7 col-md-8">
-          <h1 class="text-white text-center"><b>{{ __('EC-RINP PORTAL') }}</b></h1>
+      <div class="col-md-9 ml-auto mr-auto mb-3 text-center">
+      <h3>{{ __('Log in to the EC-RINP Portal') }} </h3>
       </div>
   </div>
     <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
@@ -70,7 +70,7 @@
             </div>
             <div class="col-6 text-right">
                 <a href="{{ route('register') }}" class="text-light">
-                    <small>{{ __('Register') }}</small>
+                    <small>{{ __('Create new account') }}</small>
                 </a>
             </div>
         </div>
