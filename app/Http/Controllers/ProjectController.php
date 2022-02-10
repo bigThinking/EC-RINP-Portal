@@ -55,7 +55,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -93,7 +93,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -138,6 +138,10 @@ class ProjectController extends Controller
     //Store project
     public function storeProjectStage(Request $request)
     {
+        $request->validate([
+            'project_stage' => 'required|min:3|max:20|unique:project_stages',
+        ]);
+
         $input = $request->all();
         DB::beginTransaction();
 
@@ -157,7 +161,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -219,7 +223,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -280,7 +284,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -319,7 +323,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -382,7 +386,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -410,7 +414,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -450,7 +454,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -488,7 +492,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -568,7 +572,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -686,7 +690,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -744,7 +748,7 @@ class ProjectController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 

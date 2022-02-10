@@ -86,22 +86,7 @@ $role = $user->roles[0];
                         </li>
                     </ul>
                 </div>
-                <a class="nav-link" data-toggle="collapse" href="#Events" aria-expanded="true">
-                    <i class="material-icons black">event_available</i>
-                    <p>{{ __('Events') }}
-                        <b class="caret"></b>
-                    </p>
-                </a>
-                <div class="collapse hide" id="Events">
-                    <ul class="nav">
-                        <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-                            <a class="nav-link" href="{{ route('get-events') }}">
-                                <span class="sidebar-mini"> <i class="material-icons black">event_available</i> </span>
-                                <span class="sidebar-normal"> {{ __('Events') }} </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                
                 <a class="nav-link {{ $activePage == 'user-management' ? ' active' : '' }}"
                     href="{{ route('view-calls') }}">
                     <i class="material-icons black">event_available</i>

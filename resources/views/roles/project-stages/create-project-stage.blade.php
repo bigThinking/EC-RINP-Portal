@@ -20,7 +20,7 @@
             @endif
             <div class="row">
                 <div class="col-md-12">
-                    <form id="add-role" method="post" action="{{url('store-project-stage')}}" class="form-horizontal" enctype="multipart/form-data">
+                    <form id="add-role" method="post" action="{{route('store-project-stage')}}" class="form-horizontal" enctype="multipart/form-data">
                         @csrf
                         @method('post')
                         <div class="card ">
@@ -34,7 +34,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <input name="project_stage" type="text" id="project_stage" class="form-control"
-                                                   placeholder="Stage number">
+                                                   placeholder="Stage name/identifier">
                                         </div>
                                     </div>
                                 </div>

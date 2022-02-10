@@ -32,7 +32,7 @@ class HomeController extends Controller
     {
         $users = count(User::all());
         $organisations = count(Organisation::all());
-        $events = count(Event::all());
+        $events = count(Call::All()->where('call_type', '=', 'Event'));
 
 
         return view('dashboard',compact('users','organisations','events'));
@@ -66,7 +66,7 @@ class HomeController extends Controller
     public function viewEvents()
     {
 
-        $events = Call::where('call_type', '=', 'Event');
+        $events = Call::All()->where('call_type', '=', 'Event');
 
 
      $calendar = Calendar::addEvents($events)->setOptions([

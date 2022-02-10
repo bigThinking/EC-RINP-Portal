@@ -7,17 +7,20 @@ use App\Models\CallSignUp;
 use App\Models\CallType;
 use App\Models\CallSignUpReport;
 use App\Traits\Media;
+use App\Mail\CallApplicationReceipt;
+use App\Mail\CallApplicationReceived;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
 class CallController extends Controller
 {
     use Media;
 
-    //todo integrate call functionality with calendar and fix view events, send email receipts and fix other emails 
-    //create project view, fix organisation and user profiles- 5hrs
+    // fix organisation and user profiles
+    //todo integrate call functionality with calendar and fix view events, create project view
     public function callIndex()
     {
         // $calls = Call::where('closing_date', '>=', Date('Y-m-d'))->orderBy('closing_date')->paginate(15);
@@ -35,7 +38,7 @@ class CallController extends Controller
 
             return view('calls.call-index', compact('calls'));
         } else {
-            abort(401);
+            abort(401); 
         }
     }
 
@@ -69,14 +72,16 @@ class CallController extends Controller
 
     public function signUp($callId)
     {
-        $logged_in_user = Auth::user()->load('roles');
+        $logged_in_user = Auth::user()->load('roles', 'organisation', 'organisation.user');
 
         if ($logged_in_user->roles[0]->name != config('constants.INNOVATOR')) {
             return abort(401);
         }
 
         if(CallSignUp::where('call_id', $callId)->where('user_id', $logged_in_user->id)->first() != null)
-        return response()->json(['success_message' => 'You have previously applied for this call.'], 200);
+        return redirect()
+        ->route('show-call', $callId)
+        ->with('success_message','You have previously applied for this call.');
 
         DB::beginTransaction();
         try {
@@ -94,6 +99,10 @@ class CallController extends Controller
                 ]);
                 $callSignUpReport->save();
             DB::commit();
+
+            $call = Call::find($callId)->load('organisation');
+            Mail::to($logged_in_user->organisation->users)->send(new CallApplicationReceipt($call, $logged_in_user->organisation));
+            Mail::to($logged_in_user->organisation->users)->send(new CallApplicationReceipt($call, $logged_in_user->organisation));
 
             return redirect()
             ->route('show-call', $callId)

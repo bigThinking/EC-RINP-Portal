@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Call;
+use App\Models\Organisation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,14 +13,16 @@ class CallApplicationReceipt extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $call, $applicantOrg;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Call $call, Organisation $applicantOrg)
     {
-        //
+        $this->call = $call;
+        $this->applicantOrg = $applicantOrg;
     }
 
     /**
@@ -28,6 +32,6 @@ class CallApplicationReceipt extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->subject('Call application receipt')->markdown('emails.signups.receipt',['call_title'=>$this->call->title,'org_name'=>$this->applicantOrg->organisation_name]);
     }
 }
