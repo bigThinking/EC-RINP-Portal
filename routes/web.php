@@ -171,3 +171,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 });
 
+// Route::get('/mailable', function () {
+//     $invoice = App\Models\Invoice::find(1);
+ 
+//     return new App\Mail\InvoicePaid($invoice);
+// });

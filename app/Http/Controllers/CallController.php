@@ -16,17 +16,16 @@ class CallController extends Controller
 {
     use Media;
 
-    //todo integrate call functionality with calendar and fix view events, enforce constraints on db
-    //create project view, send email receipts and fix other emails 
-    //fix organisation and user profiles, organisation logo upload, implement logging- 5hrs
+    //todo integrate call functionality with calendar and fix view events, send email receipts and fix other emails 
+    //create project view, fix organisation and user profiles- 5hrs
     public function callIndex()
     {
+        // $calls = Call::where('closing_date', '>=', Date('Y-m-d'))->orderBy('closing_date')->paginate(15);
         $calls = Call::orderBy('closing_date')->paginate(15);
         $calls->load('organisation');
         return view('calls.call-index', compact('calls'));
     }
 
-    //todo only show unexpired calls.
     public function callIndexOrganisation()
     {
         $logged_in_user = Auth::user()->load('roles');

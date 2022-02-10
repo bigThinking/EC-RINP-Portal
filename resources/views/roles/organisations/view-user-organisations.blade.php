@@ -21,8 +21,6 @@
             <h2><strong>List of users</strong></h2>
             <div class="row">
                 @foreach($organisation->user as $user)
-                    @if($user->name == 'Admin')
-                    @else
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-header card-header-warning">
@@ -41,7 +39,6 @@
                                 <br>
                             </div>
                         </div>
-                    @endif
                 @endforeach
             </div>
         </div>

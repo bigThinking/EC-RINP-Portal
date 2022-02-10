@@ -21,7 +21,7 @@
                 <h2><strong>List of users</strong></h2>
                 <div class="row">
                     @foreach($organisation as $organisation)
-                        @if($organisation->organisation_name == 'Other (if your organisation is not on the list)')
+                        @if($organisation->organisation_name == config('constants.NO_ORGANISATION'))
                         @else
                             <div class="col-md-4">
                                 <div class="card">
@@ -35,7 +35,7 @@
                                         <p style="color: blue" class="card-category"><span style="font-size: 2em;color: blue" class="text-success"></span>Website : {{$organisation->website}}</p>
                                     </div>
                                     <div class="card-footer" style="margin: 0 auto">
-                                        <a style="color: blue" href="{{url('/view-organisation-users/'.$organisation->id)}}">
+                                        <a style="color: blue" href="{{route('view-organisation-users',$organisation->id)}}">
                                             <i class="material-icons">person</i>View users</a>
                                     </div>
                                     <br>

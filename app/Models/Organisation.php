@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Organisation extends BaseModel
 {
     protected $fillable = ['organisation_name','description','reg_no','location',
-        'email','website','contact_number'];
+        'email','website','contact_number', 'logo_url'];
 
     public function user(){
         return $this->hasMany(User::class, 'organisation_id');

@@ -7,9 +7,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Traits\Media;
 
 class OrganisationsController extends Controller
 {
+    use Media;
+
     //Add organisation
     public function createOrganisation()
     {
@@ -25,7 +28,16 @@ class OrganisationsController extends Controller
     //Store Organisation
     public function storeOrganisation(Request $request)
     {
+        $request->validate([
+            'organisation_name' => 'required|min:3|max:50',
+            'description' => 'required|min:10|max:500',
+            'organisation_logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'email' => 'required|email|max:255',
+            'contact_number' => 'required|max:14',
+        ]);
+
         $input = $request->all();
+        $fileData = $this->uploads($input['organisation_logo'],'org_logos/');
         DB::beginTransaction();
         $logged_in_user = Auth::user()->load('roles');
         try {
@@ -35,7 +47,8 @@ class OrganisationsController extends Controller
                 'location' => $input['location'],
                 'email' => $input['email'],
                 'website' => $input['website'],
-                'contact_number' => $input['contact_number']]);
+                'contact_number' => $input['contact_number'],
+                'logo_url' => $fileData['fileName']]);
             $create_organisation->save();
             $logged_in_user->update(['organisation_id' => $create_organisation->id]);
             DB::commit();
@@ -48,13 +61,20 @@ class OrganisationsController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
     //Admin Store Organisation
     public function adminStoreOrganisation(Request $request)
     {
+        $request->validate([
+            'organisation_name' => 'required|min:3|max:50',
+            'description' => 'required|min:10|max:500',
+            'email' => 'required|email|max:255',
+            'contact_number' => 'required|max:14',
+        ]);
+
         $input = $request->all();
         DB::beginTransaction();
         try {
@@ -76,7 +96,7 @@ class OrganisationsController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
@@ -106,13 +126,26 @@ class OrganisationsController extends Controller
     //Update organisation
     public function updateOrganisation(Request $request, Organisation $organisation)
     {
-        DB::beginTransaction();
+        $request->validate([
+            'organisation_name' => 'required|min:3|max:50',
+            'description' => 'required|min:10|max:500',
+            'organisation_logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'email' => 'required|email|max:255',
+            'contact_number' => 'required|max:14',
+        ]);
+        
         $input = $request->all();
+        $fileData = $this->uploads($input['organisation_logo'],'org_logos/');
+        DB::beginTransaction();
         try {
             $organisation->update(['organisation_name' => $input['organisation_name'],
-                'description' => $input['description'],
-                'reg_no' => $input['reg_no'],
-                'location' => $input['location']]);
+            'description' => $input['description'],
+            'reg_no' => $input['reg_no'],
+            'location' => $input['location'],
+            'email' => $input['email'],
+            'website' => $input['website'],
+            'contact_number' => $input['contact_number'],
+            'logo_url' => $fileData['fileName']]);
 
             $organisation->save();
             DB::commit();
@@ -126,11 +159,11 @@ class OrganisationsController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', config('constants.SUPPORT_MESSAGE'));
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
     }
 
-    //Delete Role
+    //Delete Organisation
     public function adminDeleteOrganisation(Organisation $organisation)
     {
         try {
@@ -156,8 +189,18 @@ class OrganisationsController extends Controller
     //Update organisation
     public function updateUserOrganisation(Request $request, User $user)
     {
-        DB::beginTransaction();
+        $request->validate([
+            'organisation_name' => 'required|min:3|max:50',
+            'description' => 'required|min:10|max:500',
+            'organisation_logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'email' => 'required|email|max:255',
+            'contact_number' => 'required|max:14',
+        ]);
+
         $input = $request->all();
+        $fileData = $this->uploads($input['organisation_logo'],'org_logos/');
+        DB::beginTransaction();
+
         try {
                 $user->organisation()->update(['organisation_name' => $input['organisation_name'],
                     'description' => $input['description'],
@@ -165,7 +208,8 @@ class OrganisationsController extends Controller
                     'location' => $input['location'],
                     'email' => $input['email'],
                     'website' => $input['website'],
-                    'contact_number' => $input['contact_number']]);
+                    'contact_number' => $input['contact_number'],
+                    'logo_url' => $fileData['fileName']]);
 
             DB::commit();
 
@@ -178,7 +222,7 @@ class OrganisationsController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
 
     }

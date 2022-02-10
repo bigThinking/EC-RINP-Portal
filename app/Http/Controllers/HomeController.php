@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
+use App\Models\Call;
 use App\Models\Organisation;
 use App\Models\User;
 use Carbon\Carbon;
@@ -66,7 +66,7 @@ class HomeController extends Controller
     public function viewEvents()
     {
 
-        $events = Event::all();
+        $events = Call::where('call_type', '=', 'Event');
 
 
      $calendar = Calendar::addEvents($events)->setOptions([
