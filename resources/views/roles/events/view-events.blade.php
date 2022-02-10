@@ -36,25 +36,6 @@
         </body>
     </div>
 
-    <style>
-        body{
-            background-color: white;
-        }
-        .card .card-header-primary .card-icon, .card .card-header-primary .card-text, .card .card-header-primary:not(.card-header-icon):not(.card-header-text), .card.bg-primary, .card.card-rotate.bg-primary .front, .card.card-rotate.bg-primary .back {
-            background: linear-gradient(60deg, #1E73BE, #1E73BE);
-        }
-        .btn.btn-primary {
-            background-color: #1E73BE;
-        }
-        .text-primary {
-            color: #1E73BE !important;
-        }
-        .btn.btn-primary:hover {
-            background-color: #1E73BE;
-        }
-
-    </style>
-
     <div class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
