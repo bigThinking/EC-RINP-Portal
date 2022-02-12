@@ -71,12 +71,16 @@
                                     <tr>
                                         @endif
                                         <td>
-                                            <div class="card" style="width: 20rem; cursor: pointer;"
+                                            <div class="card" style="width: 20rem; cursor: pointer;  height: 40rem;"
                                                 onclick="location.href='{{route('show-call', $call->id)}}';">
                                                 @if($call->image_url != '')
                                                 <img class="card-img-top"
                                                     src="{{ asset('storage/calls/').'/'.$call->image_url }}"
-                                                    alt="Card image cap">
+                                                    alt="Call image">
+                                                @elseif($call->organisation->logo_url != '')
+                                                <img class="card-img-top"
+                                                    src="{{ asset('storage/org_logos/').'/'.$call->organisation->logo_url }}"
+                                                    alt="Call image">
                                                 @endif
                                                 <div class="card-body">
                                                     <h4 class="card-title">{{Str::limit($call->title, 80)}}</h4>

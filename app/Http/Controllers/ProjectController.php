@@ -808,11 +808,11 @@ class ProjectController extends Controller
             $organisation = $user->organisation;
 
             $object = (object)[
-                'organisation_name' => isset($organisation->organisation_name) ? $organisation->organisation_name : 'No name',
-                'description' => isset($organisation->description) ? $organisation->description : 'No name',
-                'location' => isset($organisation->location) ? $organisation->location : 'No name',
-                'website' => isset($organisation->website) ? $organisation->website : 'No name',
-
+                'organisation_name' => isset($organisation->organisation_name) ? $organisation->organisation_name : 'Data not available',
+                'description' => isset($organisation->description) ? $organisation->description :  'Data not available',
+                'location' => isset($organisation->location) ? $organisation->location :  'Data not available',
+                'website' => isset($organisation->website) ? $organisation->website :  'Data not available',
+                'logo_url' => $organisation->logo_url ,
                 'id' => $user->id];
             array_push($organisation_array, $object);
 

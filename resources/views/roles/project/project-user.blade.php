@@ -24,10 +24,6 @@
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
                 @foreach($user_array as $user_arrays)
                 <div class="profile">
-                    <div class="profile-pic">
-                        <div class="header-color"></div>
-                        <img src="/portal/public/images/rinp logo.png" alt="Profile Picture">
-                    </div>
                     <div class="title">
                         <h1>{{$user_arrays->name}} {{$user_arrays->surname}}</h1>
                         <h2><span class="highlighted">{{$user_arrays->email}}</span></h2>
@@ -89,6 +85,7 @@
                 }
 
                 .title {
+                    margin-top: 25px;
                     margin-bottom: 25px;
                 }
 

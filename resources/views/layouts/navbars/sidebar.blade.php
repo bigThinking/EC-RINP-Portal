@@ -17,7 +17,6 @@ $role = $user->roles[0];
                     href="<?= FULL_PATH ?>/home">{{ __('DASHBOARD') }}</a></button>
         </div>
         <ul class="nav">
-            @if($user->is_approved)
             @if($user->roles[0]->name == config('constants.ADMINISTRATOR'))
             <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#User" aria-expanded="true">
@@ -114,7 +113,7 @@ $role = $user->roles[0];
                                 <span class="sidebar-normal"> {{ __('Create organisations') }} </span>
                             </a>
                         </li>
-                        @else
+                        @elseif($user->is_approved)
 
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                             <a class="nav-link" href="{{url('/edit-user-organisation/'.$user->id)}}">
@@ -148,7 +147,7 @@ $role = $user->roles[0];
                             </a>
                         </li>
 
-                        @else
+                        @elseif($user->is_approved)
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                             <a class="nav-link" href="{{url('/edit-user-organisation/'.$user->id)}}">
                                 <span class="sidebar-mini"> <i class="material-icons black">business_center</i> </span>
@@ -216,7 +215,7 @@ $role = $user->roles[0];
                                 <span class="sidebar-normal"> {{ __('Create organisations') }} </span>
                             </a>
                         </li>
-                        @else
+                        @elseif($user->is_approved)
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                             <a class="nav-link" href="{{url('/edit-user-organisation/'.$user->id)}}">
                                 <span class="sidebar-mini"> <i class="material-icons black">business_center</i> </span>
@@ -298,7 +297,7 @@ $role = $user->roles[0];
                     </a>
                 </li>
 
-                @else
+                @elseif($user->is_approved)
                 <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" href="{{url('/edit-user-organisation/'.$user->id)}}">
                         <span class="sidebar-mini"> <i class="material-icons black">person</i> </span>
@@ -314,7 +313,6 @@ $role = $user->roles[0];
             <p>{{ __('Calls') }}</p>
         </a>
     </li>
-    @endif
     @endif
     </ul>
 </div>

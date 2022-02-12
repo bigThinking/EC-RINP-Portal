@@ -10,7 +10,7 @@
     <div class="content">
         <div class="container-fluid">
             {{--<h4><b>Welcome {{$user->name}} {{$user->surname}}</b></h4>--}}
-            @if($user->roles[0]->name == 'administrator')
+            @if($user->roles[0]->name == config('constants.ADMINISTRATOR'))
             <div class="row">
                 <div class="col-md-4">
                     <div class="card">
@@ -67,7 +67,7 @@
                 </div>
             </div>
                 @endif
-            @if($user->roles[0]->name == 'Incubator staff')
+            @if($user->roles[0]->name == config('constants.INCUBATOR'))
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header card-header-warning">
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 @endif
-            @if($user->roles[0]->name == 'innovator')
+            @if($user->roles[0]->name == config('constants.INNOVATOR'))
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header card-header-warning">
@@ -105,7 +105,7 @@
                     </div>
                 </div>
             @endif
-            @if($user->roles[0]->name == 'Facilitator')
+            @if($user->roles[0]->name == config('constants.FACILITATOR'))
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header card-header-warning">

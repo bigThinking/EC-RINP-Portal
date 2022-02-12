@@ -20,7 +20,7 @@
             @endif
 
                 <div class="col-md-8">
-                    <a href="{{route(user-index)}}"> <button type="submit" id="save-organisation" class="btn btn-primary">{{ __('Back') }}</button></a>
+                    <a href="{{route('user-index')}}"> <button type="submit" id="save-organisation" class="btn btn-primary">{{ __('Back') }}</button></a>
 
                     <div class="card">
                         <div class="card-header card-header-primary">

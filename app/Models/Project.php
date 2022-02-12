@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends BaseModel
 {
-   protected $fillable = ['project_name','description','memberName','project_stage_id','start_date',
-       'end_date','stage_description','progress_summary','graduation_date','organisation_id','graduation_id',
+   protected $fillable = ['project_name','description','memberName','project_stage_id','organisation_id','graduation_id',
        'project_closed'];
 
     public function user(){

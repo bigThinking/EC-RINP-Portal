@@ -109,9 +109,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div>
                                 <div class="row">
-                                    <label class="col-sm-2 col-form-label">Image</label>
+                                    <label class="col-sm-2 col-form-label">Organisation Logo</label>
                                     <div class="col">
                                         <input type="file" id="organisation_logo" name="organisation_logo" class="form-control"
                                             placeholder="Organisation logo" accept="image/*">

@@ -145,7 +145,11 @@ class CallController extends Controller
         ]);
 
         $input = $request->all();
+
+        $fileData = null;
+        if(isset($input['image']))
         $fileData = $this->uploads($input['image'],'calls/');
+
         DB::beginTransaction();
 
         try {
@@ -154,7 +158,7 @@ class CallController extends Controller
                     'call_type' => $input['call_type'],
                     'organisation_id' => $logged_in_user->organisation_id,
                     'closing_date' => $input['closing_date'],
-                    'image_url' => $fileData['fileName'], 
+                    'image_url' => $fileData != null ? $fileData['fileName'] : '', 
                     'start_time' => $input['start_time'],
                     'end_time' => $input['end_time'],
                 ]);
@@ -208,7 +212,11 @@ class CallController extends Controller
         ]);
 
         $input = $request->all();
+
+        $fileData = null;
+        if(isset($input['image']))
         $fileData = isset($input['image']) ? $this->uploads($input['image'],'calls/') : null;
+
         DB::beginTransaction();
         
         try {

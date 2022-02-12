@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('users',[App\Http\Controllers\HomeController::class,'viewAllUsers']);
+Route::get('users',[App\Http\Controllers\HomeController::class,'viewAllUsers'])->name('users');
 Route::get('/user-profile/{user}',[App\Http\Controllers\HomeController::class, 'viewUserProfile'])->name('user-profile');
 Route::get('organisations',[App\Http\Controllers\HomeController::class,'viewAllOrganisations']);
 Route::get('/view-organisation-users/{organisation}',[App\Http\Controllers\HomeController::class,'organisationUsers'])->name('view-organisation-users');

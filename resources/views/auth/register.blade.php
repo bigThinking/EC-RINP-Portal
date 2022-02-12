@@ -247,19 +247,19 @@ $organisations = \App\Models\Organisation::all();
                             </div>
                         </div>
                         <div class="form-check mr-auto ml-3 mt-3">
-                            <label class="form-check-label">
+                            <label class="form-check-label" style="color: #1E73BE">
                                 <input class="form-check-input" type="checkbox" id="policy" name="policy"
-                                    {{ old('policy', 1) ? 'checked' : '' }}>
+                                    {{ old('policy', 1) ? 'checked' : '' }} style="color: #1E73BE">
                                 <span class="form-check-sign">
                                     <span class="check"></span>
                                 </span>
-                                {{ __('I agree with the ') }} <a href="#">{{ __('Privacy Policy') }}</a>
+                                {{ __('I agree with the ') }} <a href="#" style="color: #1E73BE">{{ __('Privacy Policy') }}</a>
                             </label>
                         </div>
 
                         <div class="card-footer justify-content-center">
                             <button type="submit"
-                                class="btn btn-primary btn-link btn-lg">{{ __('Create account') }}</button>
+                                class="btn btn-primary btn-link btn-lg" style="color: #1E73BE">{{ __('Create account') }}</button>
                         </div>
                     </form>
                 </div>

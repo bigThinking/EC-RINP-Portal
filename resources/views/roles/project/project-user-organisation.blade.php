@@ -18,7 +18,7 @@
                     </ul>
                 </div>
             @endif
-<a href="{{'/portal/project-index'}}"> <button type="submit" id="save-organisation" class="btn btn-primary">{{ __('Back') }}</button></a>
+<a href="{{route('project-index')}}"> <button type="submit" id="save-organisation" class="btn btn-primary">{{ __('Back') }}</button></a>
             <div class="row">
    
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -28,7 +28,11 @@
                     <div class="profile">
                         <div class="profile-pic">
                             <div class="header-color"></div>
-                            <img src="{{ asset('images') }}/rinp_logo.png" alt="Profile Picture">
+                            @if($organisation->logo_url != '')
+                            <img src="{{ asset('storage/org_logos/').'/'.$organisation->logo_url }}"  alt="Organisation logo">
+                            @else
+                            <img src="{{ asset('images') }}/rinp_logo.png" alt="EC-RINP logo">
+                            @endif
                         </div>
                         <div class="title">
                             <h1>{{$organisation->organisation_name}}</h1>

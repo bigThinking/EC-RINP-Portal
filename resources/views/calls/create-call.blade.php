@@ -3,6 +3,11 @@
 @section('content')
 <?php
     $editing = Route::currentRouteName() == 'edit-call';
+
+    if($editing & isset($call->end_time) & isset($call->start_time)){
+    $event_end_time = date('Y-m-d\TH:i:s', strtotime($call->end_time));
+    $event_start_time = date('Y-m-d\TH:i:s', strtotime($call->start_time));
+    }
  ?>
 <div class="content">
     <div class="container-fluid">
@@ -35,7 +40,8 @@
                     @else
                     @method('post')
                     @endif
-                    {!! Form::hidden('redirect_to', old('redirect_to', URL::previous())) !!}
+
+                    <input name="redirect_to" value="{{old('redirect_to', URL::previous())}}" id="redirect_to" hidden>
                     <div class="card ">
                         <div class="card-header card-header-primary">
                             <h4 class="card-title">{{$editing ?  __('Edit Call') : __('Create A New Call') }}</h4>
@@ -99,12 +105,12 @@
                                     <div class="col">
                                         <label>Event starts at:</label>
                                         <input name="start_time" type="datetime-local" id="start" class="form-control"
-                                            placeholder="Start date" value="{{ $editing ? old('start_time', $call->start_time) : ''}}">
+                                            placeholder="Start date" value="{{ $editing ? old('start_time', $event_start_time) : ''}}">
                                     </div>
                                     <div class="col">
                                         <label>Event ends at</label>
                                         <input name="end_time" type="datetime-local" id="end" class="form-control"
-                                            placeholder="End date " value="{{ $editing ? old('end_time', $call->end_time) : ''}}">
+                                            placeholder="End date " value="{{ $editing ? old('end_time', $event_end_time) : ''}}">
                                     </div>
                                 </div>
                             </div>

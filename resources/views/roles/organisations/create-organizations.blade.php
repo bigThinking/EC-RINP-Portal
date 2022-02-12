@@ -74,6 +74,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col">
@@ -83,14 +84,13 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col">
-                                        <input type="file" id="organisation_logo" name="organisation_logo"
-                                            class="form-control" placeholder="Organisation logo" accept="image/*">
-                                    </div>
-                                </div>
+                            <div>
+                            <label>Organisation logo</label>
+                                <input type="file" id="organisation_logo" name="organisation_logo"
+                                            class="form-control" accept="image/*" placeholder="Organisation logo">
                             </div>
+
+                            
 
                         </div>
                         <div class="card-footer ml-auto mr-auto">
