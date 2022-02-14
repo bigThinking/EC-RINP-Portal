@@ -18,7 +18,7 @@
                     </ul>
                 </div>
             @endif
-                <h2><strong>List of users</strong></h2>
+                <h2><strong>List of Organiations</strong></h2>
                 <div class="row">
                     @foreach($organisation as $organisation)
                         @if($organisation->organisation_name == config('constants.NO_ORGANISATION'))

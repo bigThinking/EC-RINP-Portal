@@ -4,7 +4,7 @@ $user->load('organisation', 'organisation.project');
 $role = $user->roles[0];
 ?>
 
-<div class="sidebar" data-color="orange" data-background-color="white"
+<div class="sidebar" data-background-color="white"
     data-image="{{ asset('material') }}/img/sidebar-1.jpg">
 
     <div class="logo">
@@ -110,7 +110,7 @@ $role = $user->roles[0];
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                             <a class="nav-link" href="{{url('create-organisation')}}">
                                 <span class="sidebar-mini"> <i class="material-icons black">business_center</i> </span>
-                                <span class="sidebar-normal"> {{ __('Create organisations') }} </span>
+                                <span class="sidebar-normal"> {{ __('Create organisation') }} </span>
                             </a>
                         </li>
                         @elseif($user->is_approved)
@@ -118,7 +118,7 @@ $role = $user->roles[0];
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                             <a class="nav-link" href="{{url('/edit-user-organisation/'.$user->id)}}">
                                 <span class="sidebar-mini"> <i class="material-icons black">business_center</i> </span>
-                                <span class="sidebar-normal"> {{ __('Edit organisations') }} </span>
+                                <span class="sidebar-normal"> {{ __('Edit organisation') }} </span>
                             </a>
                         </li>
                         @endif
@@ -143,7 +143,7 @@ $role = $user->roles[0];
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                             <a class="nav-link" href="{{url('create-organisation')}}">
                                 <span class="sidebar-mini"> <i class="material-icons black">business_center</i> </span>
-                                <span class="sidebar-normal"> {{ __('Create organisations') }} </span>
+                                <span class="sidebar-normal"> {{ __('Create organisation') }} </span>
                             </a>
                         </li>
 
@@ -151,7 +151,7 @@ $role = $user->roles[0];
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                             <a class="nav-link" href="{{url('/edit-user-organisation/'.$user->id)}}">
                                 <span class="sidebar-mini"> <i class="material-icons black">business_center</i> </span>
-                                <span class="sidebar-normal"> {{ __('Edit organisations') }} </span>
+                                <span class="sidebar-normal"> {{ __('Edit organisation') }} </span>
                             </a>
                         </li>
                         @endif
@@ -212,14 +212,14 @@ $role = $user->roles[0];
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                             <a class="nav-link" href="{{url('create-organisation')}}">
                                 <span class="sidebar-mini"> <i class="material-icons black">business_center</i> </span>
-                                <span class="sidebar-normal"> {{ __('Create organisations') }} </span>
+                                <span class="sidebar-normal"> {{ __('Create organisation') }} </span>
                             </a>
                         </li>
                         @elseif($user->is_approved)
                         <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                             <a class="nav-link" href="{{url('/edit-user-organisation/'.$user->id)}}">
                                 <span class="sidebar-mini"> <i class="material-icons black">business_center</i> </span>
-                                <span class="sidebar-normal"> {{ __('Edit organisations') }} </span>
+                                <span class="sidebar-normal"> {{ __('Edit organisation') }} </span>
                             </a>
                         </li>
                         @endif
@@ -293,7 +293,7 @@ $role = $user->roles[0];
                 <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" href="{{url('create-organisation')}}">
                         <span class="sidebar-mini"> <i class="material-icons black">person</i> </span>
-                        <span class="sidebar-normal"> {{ __('Create organisations') }} </span>
+                        <span class="sidebar-normal"> {{ __('Create organisation') }} </span>
                     </a>
                 </li>
 
@@ -301,7 +301,7 @@ $role = $user->roles[0];
                 <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
                     <a class="nav-link" href="{{url('/edit-user-organisation/'.$user->id)}}">
                         <span class="sidebar-mini"> <i class="material-icons black">person</i> </span>
-                        <span class="sidebar-normal"> {{ __('Edit organisations') }} </span>
+                        <span class="sidebar-normal"> {{ __('Edit organisation') }} </span>
                     </a>
                 </li>
                 @endif

@@ -69,7 +69,7 @@
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               <input type="hidden" name="_token" value="NKN81BvuQSzEbJlULUVrTDRewUlcAIJhPbOwli18">            </form>
           <div class="wrapper ">
-            <div class="sidebar" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
+            <div class="sidebar" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
               <!--
                   Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 

@@ -66,7 +66,7 @@ class HomeController extends Controller
     public function viewEvents()
     {
 
-        $events = Call::All()->where('call_type', '=', 'Event');
+     $events = Call::All()->where('call_type', '=', 'Event');
 
 
      $calendar = Calendar::addEvents($events)->setOptions([

@@ -657,7 +657,7 @@ class ProjectController extends Controller
         $logged_in_user = Auth::user()->load('roles');
 
         //Check if logged in user is admin, else return 404
-        if($logged_in_user->roles[0]->name == 'Facilitator') {
+        if($logged_in_user->roles[0]->name == config('constants.FACILITATOR')) {
             return view('roles.tasks.task-replies', compact('task','userStage','userTask','taskReply','userOrganisation'));
         }
     }

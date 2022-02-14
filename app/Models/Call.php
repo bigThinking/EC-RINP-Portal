@@ -48,7 +48,7 @@ class Call extends BaseModel implements  \LaravelFullCalendar\Event
      */
     public function getStart()
     {
-        return date('Y:m:d', strtotime($this->start_time));
+        return $this->start_time;
     }
 
     /**
@@ -56,7 +56,7 @@ class Call extends BaseModel implements  \LaravelFullCalendar\Event
      */
     public function getEnd()
     {
-        return date('Y:m:d', strtotime($this->end_time));
+        return $this->end_time;
     }
 
     public function isEvent()

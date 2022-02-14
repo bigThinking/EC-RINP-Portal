@@ -204,6 +204,7 @@ class CallController extends Controller
             abort(401);
         }
 
+        // Log::info($request);
         $request->validate([
             'title' => 'required|min:3|max:255',
             'description' => 'required|min:10',
@@ -272,7 +273,7 @@ class CallController extends Controller
     public function editSignUpReport($callSignUpId)
     {
         $logged_in_user = Auth::user()->load('roles');
-        $call_sign_up_report = CallSignUpReport::All()->where('call_sign_up_id', $callSignUpId)->load('callSignUp', 'callSignUp.user', 'callSignUp.organisation', 'callSignUp.call', 'user');
+        $call_sign_up_report = CallSignUpReport::where('call_sign_up_id', $callSignUpId)->get()->load('callSignUp', 'callSignUp.user', 'callSignUp.organisation', 'callSignUp.call', 'user');
 
         if(($logged_in_user->organisation_id == $call_sign_up_report[0]->callSignUp->call->organisation_id &&  $logged_in_user->roles[0]->name == config('constants.FACILITATOR')) || ($logged_in_user->roles[0]->name ==
                             config('constants.ADMINISTRATOR') || $logged_in_user->roles[0]->name == config('constants.INCUBATOR'))){
@@ -285,9 +286,9 @@ class CallController extends Controller
     public function updateSignUpReport(Request $request, $callSignUpId)
     {
         $logged_in_user = Auth::user()->load('roles');
-        $call_sign_up_report = CallSignUpReport::All()->where('call_sign_up_id', $callSignUpId)->load("callSignUp", "callSignUp.call");
+        $call_sign_up_report = CallSignUpReport::where('call_sign_up_id', $callSignUpId)->get()->load("callSignUp", "callSignUp.call");
 
-        Log::info($call_sign_up_report);
+        // Log::info($call_sign_up_report);
         if(!(($logged_in_user->organisation_id == $call_sign_up_report[0]->callSignUp->call->organisation_id &&  $logged_in_user->roles[0]->name == config('constants.FACILITATOR')) || ($logged_in_user->roles[0]->name ==
                             config('constants.ADMINISTRATOR') || $logged_in_user->roles[0]->name == config('constants.INCUBATOR')))){
             abort(401);

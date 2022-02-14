@@ -73,9 +73,6 @@
 
     @push('custom-scripts')
         <script>
-            function myFunction() {
-                alert(event.title);
-            }
             $(document).ready(function() {
                 $(function() {
                     $('#calendar-{{$calendar->getId()}}').fullCalendar({
@@ -85,15 +82,7 @@
                             center: 'title',
                             right: 'month,agendaWeek,agendaDay'
                         },
-                        eventMouseover: function(event, jsEvent, view) {
-                            $('.fc-event-inner', this).append('<div id=\"'+event.id+'\" class=\"hover-end\">'+$.fullCalendar.formatDate(event.end, 'h:mmt')+'</div>');
-                        },
-
-                        eventMouseout: function(event, jsEvent, view) {
-                            $('#'+event.id).remove();
-                        }
                     });
-
                 });
 
             });

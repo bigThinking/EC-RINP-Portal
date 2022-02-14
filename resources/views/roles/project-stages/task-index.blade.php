@@ -30,7 +30,7 @@
                                     <thead class=" text-primary">
                                     <th>Project</th>
                                     <th>Stage</th>
-                                    <th>Task</th>
+                                    <th>Request</th>
                                     {{--<th>Description</th>--}}
                                     <th>Last updated date</th>
                                     {{--<th>Facilitator</th>

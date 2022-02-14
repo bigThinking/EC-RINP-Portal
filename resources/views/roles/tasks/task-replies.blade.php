@@ -22,7 +22,7 @@
 
         @endif
             <div id="resume">
-                <img src="{{ asset('images') }}/rinp_logo.png" alt="EC-RINP logo">
+                <img src="{{ $userOrganisation->logo_url != '' ? asset('storage/org_logos/').'/'.$call->organisation->logo_url : asset('images') }}/rinp_logo.png" alt="EC-RINP logo">
                 <h1>Project name :  {{$task->project_name}}</h1>
                 <p>Organisation: <a href=# id="{{$userOrganisation->id}}">{{$userOrganisation->organisation_name}}</a></p>
                 <p>Project description: {{$task->project_description}}</p>

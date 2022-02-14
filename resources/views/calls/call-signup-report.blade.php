@@ -26,7 +26,7 @@
             last edited by
          -->
             <div id="resume">
-                <img src="{{ asset('images') }}/rinp_logo.png" alt="EC-RINP logo">
+                <img src="{{$call_sign_up_report[0]->callSignUp->organisation->logo_url != '' ? asset('storage/org_logos/').'/'.$call->organisation->logo_url : asset('images') }}/rinp_logo.png" alt="EC-RINP logo">
                 <h1>Call title :  {{$call_sign_up_report[0]->callSignUp->call->title}}</h1>
                 <p>Innovator Name: {{$call_sign_up_report[0]->callSignUp->user->name.' '.$call_sign_up_report[0]->callSignUp->user->surname}}</p>
                 <p>Innovator Organisation: {{$call_sign_up_report[0]->callSignUp->organisation->name}}</p>

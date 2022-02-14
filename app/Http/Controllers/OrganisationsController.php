@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Traits\Media;
+use Illuminate\Support\Facades\Log;
 
 class OrganisationsController extends Controller
 {
@@ -126,17 +127,23 @@ class OrganisationsController extends Controller
     //Update organisation
     public function updateOrganisation(Request $request, Organisation $organisation)
     {
+        // Log::info($request);
         $request->validate([
             'organisation_name' => 'required|min:3|max:50',
             'description' => 'required|min:10|max:500',
-            'organisation_logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'email' => 'required|email|max:255',
             'contact_number' => 'required|max:14',
+            'organisation_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        
+
         $input = $request->all();
+
+        $fileData = null;
+        if(isset($input['organisation_logo']))
         $fileData = $this->uploads($input['organisation_logo'],'org_logos/');
+
         DB::beginTransaction();
+
         try {
             $organisation->update(['organisation_name' => $input['organisation_name'],
             'description' => $input['description'],
@@ -145,7 +152,7 @@ class OrganisationsController extends Controller
             'email' => $input['email'],
             'website' => $input['website'],
             'contact_number' => $input['contact_number'],
-            'logo_url' => $fileData['fileName']]);
+            'logo_url' =>  $fileData != null ? $fileData['fileName'] : '']);
 
             $organisation->save();
             DB::commit();
@@ -189,16 +196,21 @@ class OrganisationsController extends Controller
     //Update organisation
     public function updateUserOrganisation(Request $request, User $user)
     {
+        // Log::info($request);
         $request->validate([
             'organisation_name' => 'required|min:3|max:50',
             'description' => 'required|min:10|max:500',
-            'organisation_logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'organisation_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'email' => 'required|email|max:255',
             'contact_number' => 'required|max:14',
         ]);
 
         $input = $request->all();
+
+        $fileData = null;
+        if(isset($input['organisation_logo']))
         $fileData = $this->uploads($input['organisation_logo'],'org_logos/');
+
         DB::beginTransaction();
 
         try {
@@ -209,7 +221,7 @@ class OrganisationsController extends Controller
                     'email' => $input['email'],
                     'website' => $input['website'],
                     'contact_number' => $input['contact_number'],
-                    'logo_url' => $fileData['fileName']]);
+                    'logo_url' =>  $fileData != null ? $fileData['fileName'] : '']);
 
             DB::commit();
 
