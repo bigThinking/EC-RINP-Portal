@@ -13,6 +13,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\ApproveUser;
+use App\Mail\Welcome;
 
 class RegisterController extends Controller
 {
@@ -86,12 +88,17 @@ class RegisterController extends Controller
             'address' => $data['address'] ?? null,
             'organisation_id' => $data['organisation_id'] ?? null,
         ]);
-        $role = Role::select('id')->where('name', 'not assigned')->first();
+        $role = Role::select('id')->where('name', config('constants.UNASSIGNED'))->first();
         $user->roles()->attach($role);
 
+        Mail::to($user)->send(new Welcome($user));
+        
+        $adminRole = Role::select('id')->where('name', config('constants.ADMINISTRATOR'))->first();
+        $admins = User::where('role_id', $adminRole)->get();
+        $user->load('organisation');
 
+        foreach($admins as $recipient){
+            Mail::to($recipient)->send(new ApproveUser($user, $recipient));
+        }
     }
-
-
-
 }

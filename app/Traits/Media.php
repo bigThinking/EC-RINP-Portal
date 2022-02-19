@@ -18,7 +18,7 @@ trait Media {
             $filePath   = 'storage/'.$path . $fileName;
 
             return $file = [
-                'fileName' => $file_name,
+                'fileName' => $fileName,
                 'fileType' => $file_type,
                 'filePath' => $filePath,
                 'fileSize' => $this->fileSize($file)

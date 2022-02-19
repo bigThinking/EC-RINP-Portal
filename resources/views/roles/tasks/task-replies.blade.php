@@ -24,7 +24,7 @@
             <div id="resume">
                 <img src="{{ $userOrganisation->logo_url != '' ? asset('storage/org_logos/').'/'.$call->organisation->logo_url : asset('images') }}/rinp_logo.png" alt="EC-RINP logo">
                 <h1>Project name :  {{$task->project_name}}</h1>
-                <p>Organisation: <a href=# id="{{$userOrganisation->id}}">{{$userOrganisation->organisation_name}}</a></p>
+                <p>Organisation: <a href="{{route(task-user-organisation,$userOrganisation->id)}}">{{$userOrganisation->organisation_name}}</a></p>
                 <p>Project description: {{$task->project_description}}</p>
                 <p>Project stage : {{$userStage->project_stage}}</p>
                 <div class="col-md-12">
@@ -36,7 +36,7 @@
                             <input value="{{$task->id}}" id="user_id" hidden>
                             <div class="card-body ">
                                 <br>
-                                <h2 style=" font-weight: bold;">Referral Task</h2>
+                                <h2 style=" font-weight: bold;">Resource request</h2>
                                 <p>Title : {{$task->title}}</p>
                                 <p>Description : {{$task->description}}</p>
                                 <br>
@@ -256,15 +256,4 @@
         }
 
     </style>
-    @push('custom-scripts')
-        <script>
-
-
-            function projectUserOrganisation(obj){
-                let project_id = obj.id;
-                window.location.href = '/portal/task-user-organisation/' + project_id;
-            }
-
-        </script>
-    @endpush
 @endsection

@@ -23,10 +23,11 @@ class CallController extends Controller
     //todo integrate call functionality with calendar and fix view events, create project view
     public function callIndex()
     {
-        // $calls = Call::where('closing_date', '>=', Date('Y-m-d'))->orderBy('closing_date')->paginate(15);
-        $calls = Call::orderBy('closing_date')->paginate(15);
+        $calls = Call::where('closing_date', '>=', Date('Y-m-d'))->orderBy('closing_date')->paginate(15);
+        $call_types = CallType::All();
+        // $calls = Call::orderBy('closing_date')->paginate(15);
         $calls->load('organisation');
-        return view('calls.call-index', compact('calls'));
+        return view('calls.call-index', compact('calls', 'call_types'));
     }
 
     public function callIndexOrganisation()
@@ -35,8 +36,9 @@ class CallController extends Controller
 
         if ($logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR') or $logged_in_user->roles[0]->name == config('constants.INCUBATOR') or $logged_in_user->roles[0]->name == config('constants.FACILITATOR')) {
             $calls = Call::where('organisation_id', $logged_in_user->organisation_id)->orderBy('closing_date')->paginate(15);
+            $call_types = CallType::All();
 
-            return view('calls.call-index', compact('calls'));
+            return view('calls.call-index', compact('calls', 'call_types'));
         } else {
             abort(401); 
         }
@@ -100,9 +102,14 @@ class CallController extends Controller
                 $callSignUpReport->save();
             DB::commit();
 
-            $call = Call::find($callId)->load('organisation');
-            Mail::to($logged_in_user->organisation->users)->send(new CallApplicationReceipt($call, $logged_in_user->organisation));
-            Mail::to($logged_in_user->organisation->users)->send(new CallApplicationReceipt($call, $logged_in_user->organisation));
+            $call = Call::find($callId)->load('organisation', 'organisation.user');
+            foreach($logged_in_user->organisation->user as $recipient){
+            Mail::to($recipient)->send(new CallApplicationReceipt($call, $logged_in_user->organisation));
+            }
+
+            foreach($call->organisation->user as $recipient){
+            Mail::to($recipient)->send(new CallApplicationReceived($call, $logged_in_user->organisation));
+            }
 
             return redirect()
             ->route('show-call', $callId)

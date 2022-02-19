@@ -29,7 +29,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title ">Calls</h4>
+                        <h4 class="card-title ">Opportunities</h4>
                     </div>
                     <div class="card-body">
                         @if($user->roles[0]->name == config('constants.ADMINISTRATOR') || $user->roles[0]->name ==
@@ -51,7 +51,6 @@
                                         <option value="organisation" {{ $onOrganisation ? __('selected') : __('') }}>My
                                             Organisation's Calls</option>
                                     </select>
-
                                 </div>
                             </div>
                         </div>

@@ -33,9 +33,10 @@ class HomeController extends Controller
         $users = count(User::all());
         $organisations = count(Organisation::all());
         $events = count(Call::All()->where('call_type', '=', 'Event'));
+        
+        $recentCalls = Call::where('closing_date', '>=', Date('Y-m-d'))->orderBy('created_at')->take(20)->get();
 
-
-        return view('dashboard',compact('users','organisations','events'));
+        return view('dashboard',compact('users','organisations','events', 'recentCalls'));
     }
 
     public function viewAllUsers(){

@@ -76,7 +76,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <label class="col-sm-2 col-form-label">{{ __('Facilitator') }}</label>
-                                            <div class="col">
+                                            <div class="col" style="overflow-y: scroll; height:100px;">
                                                 @foreach($users as $user)
                                                 <p>
                                                     <label>
