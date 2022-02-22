@@ -29,7 +29,6 @@
                                 <table class="table" id="roles-table" style="width: 100%!important">
                                     <thead class=" text-primary">
                                     <th>Project Name</th>
-                                    <th>Creator </th>
                                     <th>Organisation</th>
                                     <th>Is Closed</th>
                                     <th>Actions</th>
@@ -38,11 +37,10 @@
                                     @foreach($project_array as $projects)
                                         <tr>
                                             <td>{{$projects->project_name}}</td>
-                                            <td id="{{$projects->id}}" onclick="projectUser(this)" style="color: blue;cursor: pointer">{{$projects->memberName}}</td>
-                                            <td id="{{$projects->id}}" onclick="projectUserOrganisation(this)" style="color: blue;cursor: pointer">{{$projects->organisation_name}}</td>
+                                            <td onclick="location.href='{{$projects->organisation_profile_url}}';" style="color: blue;cursor: pointer">{{$projects->organisation_name}}</td>
                                             <th>{{$projects->project_closed}}</th>
                                             <td>
-                                                <button type="button" class="btn btn-primary" id="{{$projects->id}}" onclick="viewProject(this)">View</button>
+                                                <button type="button" class="btn btn-primary" onclick="location.href='{{route('incubatee-edit-user-project', $projects->id)}}';">View</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -56,25 +54,11 @@
         </div>
     </div>
 
-    @push('custom-scripts')
+    {{--@push('custom-scripts')
         <script>
-            function viewProject(obj){
-                let project_id = obj.id;
-                window.location.href = '/portal/incubatee-edit-user-project/' + project_id;
-            }
-
-            function projectUser(obj){
-                let project_id = obj.id;
-                window.location.href = '/portal/project-user/' + project_id;
-            }
-
-            function projectUserOrganisation(obj){
-                let project_id = obj.id;
-                window.location.href = '/portal/project-user-organisation/' + project_id;
-            }
-
             function deleteOrganisation(obj){
                 let organisation_id = obj.id;
+                var plainUrl = "{{route('delete-organisation', ':id')}}"
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -85,7 +69,7 @@
                     confirmButtonText: 'Yes, delete.'
                 }).then((result) => {
                     if (result.value) {
-                        $.get('/portal/delete-organisation/'+organisation_id, function(data,status){
+                        $.get(plainUrl.replace(':id', organisation_id), function(data,status){
                             if(status === 'success'){
                                 Swal.fire(
                                     'Deleted!',
@@ -102,7 +86,7 @@
                 })
             }
         </script>
-    @endpush
+    @endpush--}}
 
 @endsection
 

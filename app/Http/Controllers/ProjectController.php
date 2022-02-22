@@ -108,6 +108,7 @@ class ProjectController extends Controller
                 'description' => $projects->description,
                 'memberName' => $projects->memberName,
                 'organisation_name' => isset($projects->organisation) ? $projects->organisation->organisation_name: 'No organisation assigned',
+                'organisation_profile_url' => isset($projects->organisation) ? route('organisation-profile', $projects->organisation_id): '',
                 'project_closed' => isset($projects->project_closed) ? $projects->project_closed: 'No',
                 'id' => $projects->id];
             array_push($project_array, $object);

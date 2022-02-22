@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Organisation;
 use App\Models\User;
+use App\Models\Call;
+use App\Models\Timeline;
+use App\Models\ProjectStage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -237,6 +240,53 @@ class OrganisationsController extends Controller
                 ->withErrors([config('constants.SUPPORT_MESSAGE')]);
         }
 
+    }
+
+    public function getOrganisationProfile(Organisation $organisation)
+    {
+        $organisation->load('user', 'project');
+
+        return view('roles.organisations.organisation-profile', compact('organisation'));
+    }
+
+    public function getProjectTimeline(Organisation $organisation)
+    {
+        $organisation->load('user', 'project', 'project.projectstages', 'project.projectstages.task', 'project.projectstages.task.taskReply',  'project.projectstages.graduation','callSignUp', 'callSignUp.callSignUpReport');
+        
+        $users = $organisation->user;
+        $project = $organisation->project;
+        $projectStages = $organisation->project->projectStages->sortBy('creation_date');
+        $callSignUps = $organisation->callSignUp->groupBy('call_id')->sortBy('creation_date');
+        $calls = Call::All()->whereIn('id', $callSignUps->keys());
+        $stages= ProjectStage::All();
+
+        $timeline = array();
+       
+        foreach($projectStages as $stage)
+        {
+          $timeline[] = Timeline::makeStage($stage);
+
+          if($stage->graduate != null)
+          $timeline[] = Timeline::makeGraduation($stage->graduate);
+
+          $tasks = $stage->task->sortBy('creation_date');
+          foreach($tasks as $task)
+          {
+            $timeline[] = Timeline::makeTask($task);
+          }
+        }       
+
+        foreach($callSignUps as $call)
+        {
+          $timeline[] = Timeline::makeCall($call);
+        }
+
+        $timeline = collect($timeline)->sortBy(function ($temp, $key) {
+            return $temp->top_date->getTimestamp();
+        });
+
+        Log::info($timeline);
+        return view('roles.project.project-timeline', compact('organisation', 'users', 'project', 'calls', 'timeline', 'stages'));
     }
 
 }

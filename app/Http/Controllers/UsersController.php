@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\UserApproved;
 use Calender;
+
 class UsersController extends Controller
 {
     //users index
@@ -68,18 +70,25 @@ class UsersController extends Controller
                 $user->save();
                 DB::commit();
 
+                if($input['is_approved'] == 'Yes')
+                Mail::to($user)->send(new UserApproved($user));
+
                 return redirect()
                     ->to('user-index')
                     ->withInput()
                     ->with('success_message', 'User Update successfully.');
-               /* return response()->json(['message' => 'User updated successfully.', 'user' => $user], 200);*/
-
             } else {
-                return ('Not working');
+                return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors([config(['constants.SUPPORT_MESSAGE'])]);
             }
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['message' => 'User could not be saved ' . $e->getMessage()], 400);
+            return redirect()
+            ->back()
+            ->withInput()
+            ->withErrors([config(['constants.SUPPORT_MESSAGE'])]);
         }
     }
 

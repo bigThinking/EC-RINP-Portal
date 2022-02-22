@@ -89,7 +89,7 @@ $role = $user->roles[0];
                 <a class="nav-link {{ $activePage == 'user-management' ? ' active' : '' }}"
                     href="{{ route('view-calls') }}">
                     <i class="material-icons black">event_available</i>
-                    <p>{{ __('Calls') }}</p>
+                    <p>{{ __('Opportunities') }}</p>
                 </a>
             </li>
             @endif
@@ -190,7 +190,7 @@ $role = $user->roles[0];
                 <a class="nav-link {{ $activePage == 'user-management' ? ' active' : '' }}"
                     href="{{ route('view-calls') }}">
                     <i class="material-icons black">event_available</i>
-                    <p>{{ __('Calls') }} </p>
+                    <p>{{ __('Opportunities') }} </p>
                 </a>
             </li>
             @endif
@@ -254,7 +254,7 @@ $role = $user->roles[0];
     </div>
     <a class="nav-link {{ $activePage == 'user-management' ? ' active' : '' }}" href="{{ route('view-calls') }}">
         <i class="material-icons black">event_available</i>
-        <p>{{ __('Calls') }}
+        <p>{{ __('Opportunities') }}
         </p>
     </a>
     </li>
@@ -310,7 +310,7 @@ $role = $user->roles[0];
 
         <a class="nav-link {{ $activePage == 'user-management' ? ' active' : '' }}" href="{{ route('view-calls') }}">
             <i class="material-icons black">event_available</i>
-            <p>{{ __('Calls') }}</p>
+            <p>{{ __('Opportunities') }}</p>
         </a>
     </li>
     @endif

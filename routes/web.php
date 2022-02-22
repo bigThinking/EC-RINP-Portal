@@ -38,7 +38,9 @@ Route::post('store-organisation',[App\Http\Controllers\OrganisationsController::
 Route::get('organisation-index',[App\Http\Controllers\OrganisationsController::class, 'organisationIndex'])->name('organisation-index');
 Route::get('edit-organisation/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'editOrganisation'])->name('edit-organisation');
 Route::put('/update-organisation/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'updateOrganisation'])->name('update-organisation');
-Route::get('delete-organisation/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'adminDeleteOrganisation']);
+Route::get('delete-organisation/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'adminDeleteOrganisation'])->name('delete-organisation');
+Route::get('organisation-profile/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'getOrganisationProfile'])->name('organisation-profile');
+Route::get('project-timeline/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'getProjectTimeline'])->name('project-timeline')->middleware('auth');
 
 //USERS
 Route::get('user-index',[App\Http\Controllers\UsersController::class, 'usersIndex'])->name('user-index');
@@ -67,9 +69,9 @@ Route::get('/delete-project-stage/{projectStage}',[App\Http\Controllers\ProjectC
 Route::get('/edit-project-stage/{projectStage}',[App\Http\Controllers\ProjectController::class, 'editProjectStage'])->name('edit-project-stage');
 Route::put('/update-project-stage/{projectStage}',[App\Http\Controllers\ProjectController::class, 'updateProjectStage'])->name('update-project-stage');
 Route::put('/incubator-update-project/{project}',[App\Http\Controllers\ProjectController::class, 'incubatorUpdateProject'])->name('incubator-update-project');
-Route::get('/project-user/{project}',[App\Http\Controllers\ProjectController::class, 'projectUser'])->name('/portal/project-user');
-Route::get('/project-user-organisation/{project}',[App\Http\Controllers\ProjectController::class, 'projectUserOrganisation'])->name('/portal/project-user-organisation');
-Route::get('/task-user-organisation/{project}',[App\Http\Controllers\ProjectController::class, 'taskUserOrganisation'])->name('/portal/task-user-organisation');
+Route::get('/project-user/{project}',[App\Http\Controllers\ProjectController::class, 'projectUser'])->name('project-user');
+Route::get('/project-user-organisation/{project}',[App\Http\Controllers\ProjectController::class, 'projectUserOrganisation'])->name('project-user-organisation');
+Route::get('/task-user-organisation/{project}',[App\Http\Controllers\ProjectController::class, 'taskUserOrganisation'])->name('task-user-organisation');
 
 
 Route::get('incubatee-edit-user-project/{project}',[App\Http\Controllers\ProjectController::class, 'incubateeEditUserProject'])->name('incubatee-edit-user-project');
