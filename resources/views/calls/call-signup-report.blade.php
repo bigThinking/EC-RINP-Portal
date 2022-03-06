@@ -29,7 +29,7 @@
                 <img src="{{$call_sign_up_report[0]->callSignUp->organisation->logo_url != '' ? asset('storage/org_logos/').'/'.$call->organisation->logo_url : asset('images') }}/rinp_logo.png" alt="EC-RINP logo">
                 <h1>Call title :  {{$call_sign_up_report[0]->callSignUp->call->title}}</h1>
                 <p>Innovator Name: {{$call_sign_up_report[0]->callSignUp->user->name.' '.$call_sign_up_report[0]->callSignUp->user->surname}}</p>
-                <p>Innovator Organisation: {{$call_sign_up_report[0]->callSignUp->organisation->name}}</p>
+                <p>Innovator Organisation: {{$call_sign_up_report[0]->callSignUp->organisation->organisation_name}}</p>
                 <p>Report last edited by : {{$call_sign_up_report[0]->user != null ? $call_sign_up_report[0]->user->name.' '.$call_sign_up_report[0]->user->surname : ''}}</p>
                 <p>Report last edited on : {{$call_sign_up_report[0]-> updated_at}}</p>
                 <div class="col-md-12">
@@ -152,7 +152,7 @@
             padding: 10px;
             background: #fff;
             margin: 0 30px;
-            transform: rotate(-4deg);
+            transform: rotate(0deg);
             box-shadow: 0 0 4px rgba(0, 0, 0, .3);
             width: 30%;
             max-width: 220px

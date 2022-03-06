@@ -4,6 +4,10 @@
 
 <div class="content">
     <div id="resume">
+    <a href="{{URL::previous()}}">
+            <button style="margin-left: 2em" type="submit" id="back"
+                class="btn btn-primary">{{ __('Back') }}</button>
+    </a>
         <div class="col-md-12">
             <div class="card ">
                 <div class="card-body ">
@@ -11,7 +15,7 @@
                         alt="EC-RINP logo">
 
                     <p>Organisation: {{$organisation->organisation_name}}</p>
-                    <p>Description: {{$organisation->project_description}}</p>
+                    <p>Description: {{$organisation->description}}</p>
                     <p>Location : {{$organisation->location}}</p>
                     <p>Website : {{$organisation->website}}</p>
                     <p>Email : {{$organisation->email}}</p>
@@ -48,12 +52,16 @@
                     <h4 class="card-title ">Organisation Members</h4>
                 </div>
                 <div class="card-body ">
-                    @foreach($organisation->user as $user)
+                @foreach($organisation->user as $user)
+                @if(($loop->index+1)%3 == 1)
+                 <div class="row">
+                 @endif
+                  
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
                                 <p class="card-category"><span style="font-size: 2em;" class="text-success"></span>
-                                    Name & surname : {{$user->name}} {{$user->surname}}</p>
+                                   Fullname : {{$user->name}} {{$user->surname}}</p>
                                 <p class="card-category"><span style="font-size: 2em;" class="text-success"></span>
                                     Email : {{$user->email}}</p>
                                 <p class="card-category"><span style="font-size: 2em;" class="text-success"></span>
@@ -61,11 +69,16 @@
                                 <p class="card-category"><span style="font-size: 2em;" class="text-success"></span>
                                     Job title : {{$user->organisation->organisation_name}}</p>
                                 <p class="card-category"><span style="font-size: 2em;" class="text-success"></span>
-                                    Personal profile : {{$user->organisation->organisation_name}}</p>
+                                    Personal profile : {{$user->personal_profile}}</p>
                             </div>
                         </div>
                     </div>
+
+                    @if(($loop->index+1)%3 == 0)
+                     </div>
+                    @endif
                     @endforeach
+                </div>
                 </div>
             </div>
         </div>

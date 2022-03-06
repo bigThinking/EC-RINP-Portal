@@ -24,7 +24,7 @@
             <div id="resume">
                 <img src="{{ $userOrganisation->logo_url != '' ? asset('storage/org_logos/').'/'.$call->organisation->logo_url : asset('images') }}/rinp_logo.png" alt="EC-RINP logo">
                 <h1>Project name :  {{$task->project_name}}</h1>
-                <p>Organisation: <a href="{{route(task-user-organisation,$userOrganisation->id)}}">{{$userOrganisation->organisation_name}}</a></p>
+                <p>Organisation: <a href="{{route('organisation-profile',$userOrganisation->id)}}">{{$userOrganisation->organisation_name}}</a></p>
                 <p>Project description: {{$task->project_description}}</p>
                 <p>Project stage : {{$userStage->project_stage}}</p>
                 <div class="col-md-12">
@@ -152,7 +152,7 @@
             padding: 10px;
             background: #fff;
             margin: 0 30px;
-            transform: rotate(-4deg);
+            transform: rotate(0deg);
             box-shadow: 0 0 4px rgba(0, 0, 0, .3);
             width: 30%;
             max-width: 220px

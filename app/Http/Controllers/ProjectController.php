@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -647,19 +648,15 @@ class ProjectController extends Controller
 
     //Task replies
     public function addTaskReplies(Task $task){
-        $task->load('projects','projectsStage','user','taskReply')->get();
+        $task->load('projects', 'projects.organisation', 'projectsStage','user','taskReply');
         $userStage = $task->projectsStage;
-        $userStage->load('projects');
-        $userTask = $task->user;
-        $userTask->load('organisation');
-        $userOrganisation = $userTask->organisation;
+        $userOrganisation =  $task->projects->organisation;
         $taskReply = $task->taskReply;
 
         $logged_in_user = Auth::user()->load('roles');
 
-        //Check if logged in user is admin, else return 404
         if($logged_in_user->roles[0]->name == config('constants.FACILITATOR')) {
-            return view('roles.tasks.task-replies', compact('task','userStage','userTask','taskReply','userOrganisation'));
+            return view('roles.tasks.task-replies', compact('task','userStage', 'taskReply','userOrganisation'));
         }
     }
 

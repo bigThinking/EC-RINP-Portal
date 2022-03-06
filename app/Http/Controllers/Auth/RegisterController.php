@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\ApproveUser;
 use App\Mail\Welcome;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -93,8 +94,10 @@ class RegisterController extends Controller
 
         Mail::to($user)->send(new Welcome($user));
         
-        $adminRole = Role::select('id')->where('name', config('constants.ADMINISTRATOR'))->first();
-        $admins = User::where('role_id', $adminRole)->get();
+        $admins = $admins = $users = User::whereHas('roles', function($q){
+            $q->where('name', config('constants.ADMINISTRATOR'));
+        })->get();
+
         $user->load('organisation');
 
         foreach($admins as $recipient){

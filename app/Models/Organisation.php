@@ -24,6 +24,6 @@ class Organisation extends BaseModel
     }
 
     public function callSignUp(){
-        return $this->hasMany(callSignUp::class, 'user_organisation_id');
+        return $this->hasMany(CallSignUp::class, 'user_organisation_id');
     }
 }

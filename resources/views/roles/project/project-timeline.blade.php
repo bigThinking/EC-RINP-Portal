@@ -7,6 +7,10 @@ $in_cards = false;
 
 <div class="content">
     <div id="resume">
+    <a href="{{URL::previous()}}">
+            <button style="margin-left: 2em" type="submit" id="back"
+                class="btn btn-primary">{{ __('Back') }}</button>
+    </a>
         <div class="col-md-12">
             <div class="card ">
                 <div class="card-header card-header-primary">
@@ -48,6 +52,7 @@ $in_cards = false;
                             <p>{{$event->stage->stage_description}}</p>
 
                         </div>
+</div>
                         @break
 
                         @case(constant('App\Models\Timeline::GRADUATION_TYPE'))

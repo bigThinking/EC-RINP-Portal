@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\UserApproved;
 use Calender;
+use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {

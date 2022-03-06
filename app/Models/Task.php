@@ -14,7 +14,7 @@ class Task extends BaseModel
 
 
     public function projects(){
-        return $this->belongsTo(Project::class, 'task_id');
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function projectsStage(){

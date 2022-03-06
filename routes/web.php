@@ -13,12 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['middleware' => 'auth'], function () {
 Route::get('users',[App\Http\Controllers\HomeController::class,'viewAllUsers'])->name('users');
 Route::get('/user-profile/{user}',[App\Http\Controllers\HomeController::class, 'viewUserProfile'])->name('user-profile');
 Route::get('organisations',[App\Http\Controllers\HomeController::class,'viewAllOrganisations']);
 Route::get('/view-organisation-users/{organisation}',[App\Http\Controllers\HomeController::class,'organisationUsers'])->name('view-organisation-users');
-
-Route::post('register',[App\Http\Controllers\Auth\RegisterController::class,'registerUser'])->name('register');
 
 //ROLES CRUD
 Route::get('create-role', [App\Http\Controllers\UsersController::class, 'createRole'])->name('create-role');
@@ -32,7 +31,6 @@ Route::get('delete-role/{role}',[App\Http\Controllers\UsersController::class, 'a
 //ORGANISATIONS
 Route::get('admin-create-organisation',[App\Http\Controllers\OrganisationsController::class, 'adminCreateOrganisation']);
 Route::post('admin-store-organisation',[App\Http\Controllers\OrganisationsController::class, 'adminStoreOrganisation']);
-
 Route::get('create-organisation',[App\Http\Controllers\OrganisationsController::class, 'createOrganisation']);
 Route::post('store-organisation',[App\Http\Controllers\OrganisationsController::class, 'storeOrganisation']);
 Route::get('organisation-index',[App\Http\Controllers\OrganisationsController::class, 'organisationIndex'])->name('organisation-index');
@@ -40,7 +38,7 @@ Route::get('edit-organisation/{organisation}',[App\Http\Controllers\Organisation
 Route::put('/update-organisation/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'updateOrganisation'])->name('update-organisation');
 Route::get('delete-organisation/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'adminDeleteOrganisation'])->name('delete-organisation');
 Route::get('organisation-profile/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'getOrganisationProfile'])->name('organisation-profile');
-Route::get('project-timeline/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'getProjectTimeline'])->name('project-timeline')->middleware('auth');
+Route::get('project-timeline/{organisation}',[App\Http\Controllers\OrganisationsController::class, 'getProjectTimeline'])->name('project-timeline');
 
 //USERS
 Route::get('user-index',[App\Http\Controllers\UsersController::class, 'usersIndex'])->name('user-index');
@@ -72,18 +70,7 @@ Route::put('/incubator-update-project/{project}',[App\Http\Controllers\ProjectCo
 Route::get('/project-user/{project}',[App\Http\Controllers\ProjectController::class, 'projectUser'])->name('project-user');
 Route::get('/project-user-organisation/{project}',[App\Http\Controllers\ProjectController::class, 'projectUserOrganisation'])->name('project-user-organisation');
 Route::get('/task-user-organisation/{project}',[App\Http\Controllers\ProjectController::class, 'taskUserOrganisation'])->name('task-user-organisation');
-
-
 Route::get('incubatee-edit-user-project/{project}',[App\Http\Controllers\ProjectController::class, 'incubateeEditUserProject'])->name('incubatee-edit-user-project');
-
-//EVENTS
-Route::get('create-events',[App\Http\Controllers\UsersController::class, 'createEvent'])->name('create-events');
-Route::post('store-event',[App\Http\Controllers\UsersController::class,'storeEvents'])->name('store-event');
-Route::get('get-events',[App\Http\Controllers\UsersController::class, 'eventIndex'])->name('get-events');
-Route::get('delete-event/{event}',[App\Http\Controllers\UsersController::class, 'deleteEvent']);
-Route::get('edit-event/{event}',[App\Http\Controllers\UsersController::class, 'editEvent'])->name('edit-event');
-Route::put('/update-event/{event}',[App\Http\Controllers\UsersController::class, 'updateEvent'])->name('update-event');
-Route::get('/view-events',[App\Http\Controllers\HomeController::class, 'viewEvents'])->name('view-events');
 
 //CallS
 Route::get('create-call',[App\Http\Controllers\CallController::class, 'createCall'])->name('create-call');
@@ -125,46 +112,26 @@ Route::get('edit-close-task/{task}',[App\Http\Controllers\ProjectController::cla
 Route::put('/close-project/{project}',[App\Http\Controllers\ProjectController::class, 'updateProjectStatus'])->name('close-project');
 Route::get('graduate-stage/{stage}',[App\Http\Controllers\ProjectController::class, 'graduateStage'])->name('graduate-stage');
 
+//EVENTS
+// Route::get('create-events',[App\Http\Controllers\UsersController::class, 'createEvent'])->name('create-events');
+// Route::post('store-event',[App\Http\Controllers\UsersController::class,'storeEvents'])->name('store-event');
+// Route::get('get-events',[App\Http\Controllers\UsersController::class, 'eventIndex'])->name('get-events');
+// Route::get('delete-event/{event}',[App\Http\Controllers\UsersController::class, 'deleteEvent']);
+// Route::get('edit-event/{event}',[App\Http\Controllers\UsersController::class, 'editEvent'])->name('edit-event');
+// Route::put('/update-event/{event}',[App\Http\Controllers\UsersController::class, 'updateEvent'])->name('update-event');
+Route::get('/view-events',[App\Http\Controllers\HomeController::class, 'viewEvents'])->name('view-events');
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('register',[App\Http\Controllers\Auth\RegisterController::class,'registerUser'])->name('register');
+
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Auth::routes();
-
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
-
-Route::group(['middleware' => 'auth'], function () {
-	Route::get('table-list', function () {
-		return view('pages.table_list');
-	})->name('table');
-
-	Route::get('typography', function () {
-		return view('pages.typography');
-	})->name('typography');
-
-	Route::get('icons', function () {
-		return view('pages.icons');
-	})->name('icons');
-
-	Route::get('map', function () {
-		return view('pages.map');
-	})->name('map');
-
-	Route::get('notifications', function () {
-		return view('pages.notifications');
-	})->name('notifications');
-
-	Route::get('rtl-support', function () {
-		return view('pages.language');
-	})->name('language');
-
-	Route::get('upgrade', function () {
-		return view('pages.upgrade');
-	})->name('upgrade');
-});
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);

@@ -105,12 +105,12 @@
                                     <div class="col">
                                         <label>Event starts at:</label>
                                         <input name="start_time" type="datetime-local" id="start" class="form-control"
-                                            placeholder="Start date" value="{{ $editing ? old('start_time', $event_start_time) : ''}}">
+                                            placeholder="Start date" value="{{ $editing ? old('start_time',  $call->start_time) : ''}}">
                                     </div>
                                     <div class="col">
                                         <label>Event ends at</label>
                                         <input name="end_time" type="datetime-local" id="end" class="form-control"
-                                            placeholder="End date " value="{{ $editing ? old('end_time', $event_end_time) : ''}}">
+                                            placeholder="End date " value="{{ $editing ? old('end_time',  $call->end_time) : ''}}">
                                     </div>
                                 </div>
                             </div>
