@@ -79,6 +79,7 @@ class UsersController extends Controller
                     ->withInput()
                     ->with('success_message', 'User Update successfully.');
             } else {
+                Log::error("Error in updateUserApproval, request has no role_id");
                 return redirect()
                 ->back()
                 ->withInput()
@@ -86,6 +87,7 @@ class UsersController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
             ->back()
             ->withInput()
@@ -125,10 +127,11 @@ class UsersController extends Controller
                 ->with('success_message', 'Role added successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->with('error', config('constants.SUPPORT_MESSAGE'));
         }
     }
 
@@ -171,10 +174,11 @@ class UsersController extends Controller
                 ->with('success_message', 'Role updated successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->with('error',config('constants.SUPPORT_MESSAGE'));
         }
     }
 
@@ -256,10 +260,11 @@ class UsersController extends Controller
                 ->with('success_message', 'Event added successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->with('error', config('constants.SUPPORT_MESSAGE'));
         }
     }
 
@@ -339,10 +344,11 @@ class UsersController extends Controller
                 ->with('success_message', 'Event updated successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'An error occured, please contact your IT Admin .');
+                ->with('error', config('constants.SUPPORT_MESSAGE'));
         }
     }
 

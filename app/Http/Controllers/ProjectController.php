@@ -53,6 +53,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Project created successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -91,6 +92,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Project updated successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -118,7 +120,7 @@ class ProjectController extends Controller
         $logged_in_user = Auth::user()->load('roles');
 
         //Check if logged in user is admin, else return 404
-        if($logged_in_user->roles[0]->name == 'administrator' or $logged_in_user->roles[0]->name == 'Incubator staff') {
+        if($logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR') or $logged_in_user->roles[0]->name == config('constants.INCUBATOR')) {
             return view('roles.project.project-index', compact('project','project_array'));
         }
     }
@@ -129,7 +131,7 @@ class ProjectController extends Controller
         $logged_in_user = Auth::user()->load('roles');
 
         //Check if logged in user is admin, else return 404
-        if ($logged_in_user->roles[0]->name == 'administrator') {
+        if ($logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR')) {
             return view('roles.project-stages.create-project-stage');
         }else {
             return response('<img style="margin-left: 200px;margin-top: 20vh" src="images/not authorised.png">');
@@ -160,6 +162,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Project stage created successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -222,6 +225,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Project stage updated successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -256,7 +260,7 @@ class ProjectController extends Controller
         }
 
         //Check if logged in user is admin, else return 404
-        if ($logged_in_user->roles[0]->name == 'Incubator staff' or $logged_in_user->roles[0]->name == 'administrator') {
+        if ($logged_in_user->roles[0]->name == config('constants.INCUBATOR') or $logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR')) {
             return view('roles.project.incubatee-edit-project', compact('project','project_stage',
                 'users','stageProject','stages','project_array'));
         }
@@ -283,6 +287,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Project updated successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -322,6 +327,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Project stage created successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -385,6 +391,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Stage updated successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -413,6 +420,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Project stage added successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -453,6 +461,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Graduation stage added successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -491,6 +500,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Task added successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -571,6 +581,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Project closed successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -685,6 +696,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Replied successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -743,6 +755,7 @@ class ProjectController extends Controller
                 ->with('success_message', 'Task closed successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
