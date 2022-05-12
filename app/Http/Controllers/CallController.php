@@ -116,6 +116,7 @@ class CallController extends Controller
             ->with('success_message', 'You have been successfully applied for this call. You will receive an email receipt.');
         } catch (Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
             ->route('show-call', $callId)
             ->withErrors([config('constants.SUPPORT_MESSAGE')]);
@@ -178,6 +179,7 @@ class CallController extends Controller
                 ->with('success_message', 'Call created successfully.');
         } catch (Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -245,6 +247,7 @@ class CallController extends Controller
                 ->with('success_message', 'Call updated successfully.');
         } catch (Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -270,6 +273,7 @@ class CallController extends Controller
                     ->with('success_message', 'Call deleted.');
         } catch (Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -317,6 +321,7 @@ class CallController extends Controller
                 ->with('success_message', 'Report updated successfully.');
         } catch (Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()

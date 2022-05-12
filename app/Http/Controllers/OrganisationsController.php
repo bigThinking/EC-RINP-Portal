@@ -62,6 +62,7 @@ class OrganisationsController extends Controller
                 ->with('success_message', 'Organisation added successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -97,6 +98,7 @@ class OrganisationsController extends Controller
                 ->with('success_message', 'Organisation added successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -166,6 +168,7 @@ class OrganisationsController extends Controller
                 ->with('success_message', 'Organisation updated successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
@@ -234,6 +237,7 @@ class OrganisationsController extends Controller
                 ->with('success_message', 'Organisation updated successfully.');
         } catch (\Exception $e) {
             DB::rollback();
+            report($e);
             return redirect()
                 ->back()
                 ->withInput()
