@@ -9,6 +9,8 @@ use App\Models\Stage;
 use App\Models\Task;
 use App\Models\TaskReply;
 use App\Models\User;
+use App\Mail\TaskResourceRequestResponse;
+use App\Mail\TaskResourceRequestReceived; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,10 +23,10 @@ class ProjectController extends Controller
     {
         $logged_in_user = Auth::user()->load('roles');
 
-        if ($logged_in_user->roles[0]->name == 'innovator') {
+        if ($logged_in_user->roles[0]->name == config('constants.INNOVATOR')) {
             return view('roles.project.create-project');
         }else {
-            return response('<img style="margin-left: 200px;margin-top: 20vh" src="images/not authorised.png">');
+            abort(401);
         }
 
     }
@@ -38,7 +40,7 @@ class ProjectController extends Controller
 
         try {
             //Check if logged in user is admin, else return 404
-            if ($logged_in_user->roles[0]->name == 'innovator') {
+            if ($logged_in_user->roles[0]->name == config('constants.INNOVATOR')) {
                 $create_project = Project::create(['project_name' => $input['project_name'],
                     'description' => $input['description'],
                     'memberName' => $logged_in_user->name,'organisation_id'=>$logged_in_user->organisation_id
@@ -66,10 +68,10 @@ class ProjectController extends Controller
         $logged_in_user = Auth::user()->load('roles', 'organisation.project');
 
         //Check if logged in user is admin, else return 404
-        if ($logged_in_user->roles[0]->name == 'innovator') {
+        if ($logged_in_user->roles[0]->name == config('constants.INNOVATOR')) {
             return view('roles.project.edit-project', compact('user'));
         }else {
-            return response('<img style="margin-left: 200px;margin-top: 20vh" src="images/not authorised.png">');
+            abort(401);
         }
     }
 
@@ -134,7 +136,7 @@ class ProjectController extends Controller
         if ($logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR')) {
             return view('roles.project-stages.create-project-stage');
         }else {
-            return response('<img style="margin-left: 200px;margin-top: 20vh" src="images/not authorised.png">');
+            abort(401);
         }
 
     }
@@ -176,7 +178,7 @@ class ProjectController extends Controller
         $logged_in_user = Auth::user()->load('roles');
 
         //Check if logged in user is admin, else return 404
-        if($logged_in_user->roles[0]->name == 'administrator') {
+        if($logged_in_user->roles[0]->name ==  config('constants.ADMINISTRATOR')) {
             return view('roles.project-stages.project-stage-index', compact('project_stage'));
         }
     }
@@ -202,7 +204,7 @@ class ProjectController extends Controller
         $logged_in_user = Auth::user()->load('roles');
 
         //Check if logged in user is admin, else return 404
-        if($logged_in_user->roles[0]->name == 'administrator') {
+        if($logged_in_user->roles[0]->name ==  config('constants.ADMINISTRATOR')) {
             return view('roles.project-stages.edit-project-stage', compact('projectStage'));
         }
     }
@@ -301,7 +303,7 @@ class ProjectController extends Controller
         $logged_in_user = Auth::user()->load('roles');
 
         //Check if logged in user is admin, else return 404
-        if ($logged_in_user->roles[0]->name == 'Incubator staff') {
+        if ($logged_in_user->roles[0]->name == config('constants.INCUBATOR')) {
             return view('roles.project-stages.create-stages',compact('project_stages'));
         }
 
@@ -355,7 +357,7 @@ class ProjectController extends Controller
         $logged_in_user = Auth::user()->load('roles');
 
         //Check if logged in user is admin, else return 404
-        if($logged_in_user->roles[0]->name == 'Incubator staff') {
+        if($logged_in_user->roles[0]->name == config('constants.INCUBATOR')) {
             return view('roles.project-stages.stages-index', compact('stage_array'));
         }
     }
@@ -367,7 +369,7 @@ class ProjectController extends Controller
         $project_stage = ProjectStage::all();
 
         //Check if logged in user is admin, else return 404
-        if($logged_in_user->roles[0]->name == 'Incubator staff' or $logged_in_user->roles[0]->name == 'administrator' ) {
+        if($logged_in_user->roles[0]->name == config('constants.INCUBATOR') or $logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR') ) {
             return view('roles.project-stages.edit-stages', compact('stage','project_stage'));
         }
     }
@@ -479,8 +481,6 @@ class ProjectController extends Controller
 
         $services = $request->input('user_id');
 
-
-
         try {
             foreach($services as $service) {
                 $task = Task::create(['title' => $input['title'],
@@ -494,9 +494,9 @@ class ProjectController extends Controller
 
             DB::commit();
 
+            //todo Mail::to($recipient)->send(new TaskResourceRequestReceived($call, $logged_in_user->organisation));
             return redirect()
-                ->to('view-tasks', $stage->id)
-                ->withInput()
+                ->route('view-tasks', $stage)
                 ->with('success_message', 'Task added successfully.');
         } catch (\Exception $e) {
             DB::rollback();
@@ -527,7 +527,7 @@ class ProjectController extends Controller
         $logged_in_user = Auth::user()->load('roles');
 
         //Check if logged in user is admin, else return 404
-        if($logged_in_user->roles[0]->name == 'Incubator staff') {
+        if($logged_in_user->roles[0]->name == config('constants.INCUBATOR')) {
             return view('roles.project-stages.graduation-stage-index', compact('graduation_stage_array'));
         }
     }
@@ -623,7 +623,7 @@ class ProjectController extends Controller
 
         $logged_in_user = Auth::user()->load('roles');
         //Check if logged in user is admin, else return 404
-        if ($logged_in_user->roles[0]->name == 'Incubator staff' or $logged_in_user->roles[0]->name == 'administrator') {
+        if ($logged_in_user->roles[0]->name == config('constants.INCUBATOR') or $logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR')) {
             return view('roles.tasks.view-tasks', compact('stage', 'users', 'task_array_two'));
         }
     }
@@ -651,7 +651,7 @@ class ProjectController extends Controller
 
         $logged_in_user = Auth::user()->load('roles');
         //Check if logged in user is admin, else return 404
-        if ($logged_in_user->roles[0]->name == 'Incubator staff' or $logged_in_user->roles[0]->name == 'administrator') {
+        if ($logged_in_user->roles[0]->name == config('constants.INCUBATOR') or $logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR')) {
             return view('roles.tasks.graduate-stage', compact('stage', 'graduation_stage',
                 'projectStages', 'graduations'));
         }
@@ -671,8 +671,6 @@ class ProjectController extends Controller
         }
     }
 
-    //Task reply
-    //Project is closed
     public function updateTaskReply(Request $request,Task $task)
     {
         DB::beginTransaction();
@@ -689,7 +687,7 @@ class ProjectController extends Controller
             $task->update(['is_replied'=>'Yes']);
 
             DB::commit();
-
+            //todo Mail::to($recipient)->send(new TaskResourceRequestResponse($call, $logged_in_user->organisation));
             return redirect()
                 ->to('task-index')
                 ->withInput()
@@ -731,7 +729,7 @@ class ProjectController extends Controller
         }
         $logged_in_user = Auth::user()->load('roles');
         //Check if logged in user is admin, else return 404
-        if ($logged_in_user->roles[0]->name == 'Incubator staff' or $logged_in_user->roles[0]->name == 'administrator') {
+        if ($logged_in_user->roles[0]->name == config('constants.INCUBATOR') or $logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR')) {
             return view('roles.tasks.view-task-reply', compact('task', 'task_array', 'taskStage'));
         }
     }
@@ -770,7 +768,7 @@ class ProjectController extends Controller
 
         $logged_in_user = Auth::user()->load('roles');
         //Check if logged in user is admin, else return 404
-        if ($logged_in_user->roles[0]->name == 'Incubator staff' or $logged_in_user->roles[0]->name == 'administrator') {
+        if ($logged_in_user->roles[0]->name == config('constants.INCUBATOR') or $logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR')) {
             return view('roles.tasks.close-task', compact('task', 'taskStage'));
         }
     }
@@ -801,7 +799,7 @@ class ProjectController extends Controller
         }
 
         //Check if logged in user is admin, else return 404
-        if ($logged_in_user->roles[0]->name == 'Incubator staff' or $logged_in_user->roles[0]->name == 'administrator') {
+        if ($logged_in_user->roles[0]->name == config('constants.INCUBATOR') or $logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR')) {
             return view('roles.project.project-user', compact('project','user_array'));
         }
     }
@@ -829,7 +827,7 @@ class ProjectController extends Controller
 
         }
 
-        if ($logged_in_user->roles[0]->name == 'Incubator staff' or $logged_in_user->roles[0]->name == 'administrator') {
+        if ($logged_in_user->roles[0]->name == config('constants.INCUBATOR') or $logged_in_user->roles[0]->name == config('constants.ADMINISTRATOR')) {
             return view('roles.project.project-user-organisation', compact('project','user','organisation_array'));
         }
     }
@@ -838,7 +836,7 @@ class ProjectController extends Controller
         $logged_in_user = Auth::user()->load('roles');
 
         //Check if logged in user is admin, else return 404
-        if ($logged_in_user->roles[0]->name == 'Facilitator') {
+        if ($logged_in_user->roles[0]->name == config('constants.FACILITATOR')) {
             return view('roles.project.task-user-organisation', compact('project'));
         }
     }
