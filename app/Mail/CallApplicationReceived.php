@@ -33,6 +33,6 @@ class CallApplicationReceived extends Mailable
      */
     public function build()
     {
-        return $this->subject('Application for call received')->markdown('emails.calls.received',['receiver_org_name'=>$this->call->organisation->organisation_name,'call_title'=>$this->call->title,'applicant_org_name'=>$this->applicantOrg->organisation_name]);
+        return $this->subject('Application for call received')->markdown('emails.calls.call-signup-received',['receiver_org_name'=>$this->call->organisation->organisation_name,'call_title'=>$this->call->title,'applicant_org_name'=>$this->applicantOrg->organisation_name]);
     }
 }
