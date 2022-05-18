@@ -32,6 +32,6 @@ class CallApplicationReceipt extends Mailable
      */
     public function build()
     {
-        return $this->subject('Call application receipt')->markdown('emails.calls.receipt',['call_title'=>$this->call->title,'org_name'=>$this->applicantOrg->organisation_name]);
+        return $this->subject('Call application receipt')->markdown('emails.calls.call-receipt',['call_title'=>$this->call->title,'org_name'=>$this->applicantOrg->organisation_name]);
     }
 }

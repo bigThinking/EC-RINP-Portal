@@ -9,11 +9,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class CallApplicationReceived extends Mailable
+class TaskResourceRequestReceived extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $call, $applicantOrg;
+    protected $task, $applicantOrg, $facilitatorOrg;
 
     /**
      * Create a new message instance.

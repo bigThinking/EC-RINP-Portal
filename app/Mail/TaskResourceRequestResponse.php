@@ -9,12 +9,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class CallApplicationReceived extends Mailable
+class TaskResourceRequestResponse extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $call, $applicantOrg;
-
+    protected $task, $applicantOrg, $facilitatorOrg;
     /**
      * Create a new message instance.
      *
@@ -33,6 +32,6 @@ class CallApplicationReceived extends Mailable
      */
     public function build()
     {
-        return $this->subject('Application for call received')->markdown('emails.calls.call-signup-received',['receiver_org_name'=>$this->call->organisation->organisation_name,'call_title'=>$this->call->title,'applicant_org_name'=>$this->applicantOrg->organisation_name]);
+        return $this->subject('Call application receipt')->markdown('emails.calls.call-receipt',['call_title'=>$this->call->title,'org_name'=>$this->applicantOrg->organisation_name]);
     }
 }
