@@ -50,6 +50,12 @@ class CallController extends Controller
         return $call->toJson();
     }
 
+    public function getCalls()
+    {
+        $calls = Call::where('closing_date', '>=', Date('Y-m-d'))->orderBy('closing_date')->get();
+        return $calls->toJson();
+    }
+
     public function showCall($callId)
     {
         $logged_in_user = Auth::user()->load('roles');
